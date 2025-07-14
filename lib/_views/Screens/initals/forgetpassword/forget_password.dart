@@ -2,16 +2,16 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:zene/_Controller/ForgetPasswordController.dart';
-import 'package:zene/_Controller/language_controller.dart';
-import 'package:zene/Configs/Assets.dart';
-import 'package:zene/Utils/mysnackbar.dart';
-import 'package:zene/Utils/screen.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/widgets/MyButton.dart';
-import 'package:zene/_views/widgets/MyText.dart';
-import 'package:zene/_views/widgets/my_text_field.dart';
-import 'package:zene/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/Configs/Assets.dart';
+import 'package:riverpordmvvm/Utils/Mysnackbar.dart';
+import 'package:riverpordmvvm/Utils/screen.dart';
+import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
+import 'package:riverpordmvvm/_Controller/language_controller.dart';
+import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
+import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});

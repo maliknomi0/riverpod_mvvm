@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:zene/_Controller/ForgetPasswordController.dart';
-import 'package:zene/Configs/Assets.dart';
-import 'package:zene/Utils/mysnackbar.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/widgets/MyButton.dart';
-import 'package:zene/_views/widgets/MyText.dart';
-import 'package:zene/_views/widgets/my_text_field.dart';
-import 'package:zene/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/Configs/Assets.dart';
+import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
+import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
+import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+
+import '../../../../Utils/Mysnackbar.dart';
 
 class SetPassword extends StatefulWidget {
   final String email;
@@ -97,9 +98,8 @@ class _SetPasswordState extends State<SetPassword> {
                       ),
                       onPressed: () {
                         setState(
-                          () =>
-                              _isConfirmPasswordVisible =
-                                  !_isConfirmPasswordVisible,
+                          () => _isConfirmPasswordVisible =
+                              !_isConfirmPasswordVisible,
                         );
                       },
                     ),
@@ -116,8 +116,8 @@ class _SetPasswordState extends State<SetPassword> {
                         listen: false,
                       );
                       final password = passwordController.text.trim();
-                      final confirmPassword =
-                          confirmPasswordController.text.trim();
+                      final confirmPassword = confirmPasswordController.text
+                          .trim();
 
                       if (password.isEmpty || confirmPassword.isEmpty) {
                         Mysnackbar.showWarning(

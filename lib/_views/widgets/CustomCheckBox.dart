@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zene/themes/theme_constants.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 // ignore: must_be_immutable
 class CustomCheckBox extends StatelessWidget {
@@ -30,21 +30,19 @@ class CustomCheckBox extends StatelessWidget {
           color: isActive ? selectedColor ?? greyColor : Colors.transparent,
           border: Border.all(
             width: 1.0,
-            color:
-                isActive
-                    ? unSelectedColor ?? greyColor
-                    : unSelectedColor ?? lightPrimaryColor,
+            color: isActive
+                ? unSelectedColor ?? greyColor
+                : unSelectedColor ?? lightPrimaryColor,
           ),
           borderRadius: BorderRadius.circular(iscircle == true ? 50 : 5),
         ),
-        child:
-            !isActive
-                ? SizedBox()
-                : Icon(
-                  Icons.check,
-                  size: 11,
-                  color: isActive == true ? whiteColor : Colors.transparent,
-                ),
+        child: !isActive
+            ? SizedBox()
+            : Icon(
+                Icons.check,
+                size: 11,
+                color: isActive == true ? whiteColor : Colors.transparent,
+              ),
       ),
     );
   }

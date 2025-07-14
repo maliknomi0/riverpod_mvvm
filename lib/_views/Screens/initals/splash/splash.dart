@@ -1,51 +1,41 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:zene/_Models/user_model.dart';
-import 'package:zene/Configs/Assets.dart';
-import 'package:zene/services/storage.dart';
-import 'package:zene/global/globle.dart' show userSD;
-import 'package:zene/_views/Screens/bottom_bar/bottom_bar.dart';
-import 'package:zene/_views/Screens/initals/Onbonding/onboarding_screen.dart';
-import 'package:zene/_views/Screens/initals/login/login.dart';
-import 'package:zene/_views/widgets/common_image.dart';
-import 'package:zene/_views/widgets/my_custom_navigator.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:one/Controller/SplashController.dart';
+import 'package:one/_Configs/Assets.dart';
+import 'package:one/themes/theme_constants.dart';
+import 'package:one/widgets/common_image.dart';
+import 'package:provider/provider.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class Splash extends StatefulWidget {
+  const Splash({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<Splash> createState() => _SplashState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _opacityAnimation;
-  final Storage _storage = Storage();
+class _SplashState extends State<Splash> with TickerProviderStateMixin {
+  late SplashController _controller;
+
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 2),
-      vsync: this,
-    );
+    _controller = SplashController(vsync: this);
+    _handleSplashSequence();
+  }
 
-    _scaleAnimation = Tween<double>(
-      begin: 0.5,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.elasticOut));
-    _opacityAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
-
-    _controller.forward();
-
-    Future.delayed(Duration(seconds: 2), () {
-      _determineInitialScreen();
-    });
+  Future<void> _handleSplashSequence() async {
+    try {
+      await _controller
+          .startAnimations(); // Wait for all animations to complete
+      await _controller.navigateToInitialScreen(
+        context,
+      ); // Navigate after animations
+    } catch (e) {
+      debugPrint('Splash sequence error: $e');
+      if (mounted) {
+        _controller.navigateToInitialScreen(context);
+      }
+    }
   }
 
   @override
@@ -54,59 +44,54 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  Future<void> _determineInitialScreen() async {
-    bool isOnboardingComplete = await _storage.isOnboardingComplete();
-
-    if (!isOnboardingComplete) {
-      MyCustomNavigator.removeUntil(context, const OnBoarding());
-    } else {
-      final String token = await _storage.getToken();
-      final dynamic user = await _storage.getLogin();
-      if (token.isNotEmpty && user != null) {
-        userSD = UserModel.fromJson(user);
-        print(userSD);
-        MyCustomNavigator.removeUntil(context, BottomNav());
-      } else {
-        MyCustomNavigator.removeUntil(context, const Login());
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Animated Logo with scaling and opacity effects
-            ScaleTransition(
-              scale: _scaleAnimation,
-              child: FadeTransition(
-                opacity: _opacityAnimation,
-                child: CommonImageView(
-                  height: 76,
-                  imagePath:
-                      isDarkMode ? AppIamges.Applogo : AppIamges.darkApplogo,
-                ),
+    return ChangeNotifierProvider.value(
+      value: _controller,
+      child: Consumer<SplashController>(
+        builder: (context, controller, child) {
+          final isdarkMode = Theme.of(context).brightness == Brightness.dark;
+          return Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SlideTransition(
+                    position: controller.logoAnimation,
+                    child: CommonImageView(
+                      imagePath: AppIamges.Applogo,
+                      width: 120,
+                      color: isdarkMode ? whiteColor : blackColor,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  SlideTransition(
+                    position: controller.headingAnimation,
+                    child: Text(
+                      'WELCOME TO ONE LIFESTYLE',
+                      style: GoogleFonts.anton(
+                        fontSize: 28,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  SlideTransition(
+                    position: controller.descriptionAnimation,
+                    child: Text(
+                      'One step closer to a better you',
+                      style: GoogleFonts.montserrat(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 14),
-            ScaleTransition(
-              scale: _scaleAnimation,
-              child: FadeTransition(
-                opacity: _opacityAnimation,
-                child: CommonImageView(
-                  height: 52,
-                  imagePath:
-                      isDarkMode ? AppIamges.urdulogo : AppIamges.darkurdulogo,
-                ),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

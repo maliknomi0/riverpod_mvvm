@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:zene/_views/widgets/common_shimmer_widgets.dart';
+import 'package:riverpordmvvm/_views/widgets/common_shimmer_widgets.dart';
 
 class CommonImageView extends StatefulWidget {
   final String? url;
@@ -29,7 +29,7 @@ class CommonImageView extends StatefulWidget {
     this.radius = 0.0,
     this.circleRadius,
     this.fit = BoxFit.cover,
-    this.placeHolder = 'assets/images/zene_logo.png',
+    this.placeHolder = 'assets/images/riverpordmvvm_logo.png',
     this.color,
     this.icon,
   });
@@ -124,9 +124,7 @@ class _CommonImageViewState extends State<CommonImageView> {
 
   Widget _buildShimmerPlaceholder() {
     if (widget.circleRadius != null) {
-      return CommonShimmerWidgets.shimmerCircle(
-        size: widget.width ?? 44,
-      );
+      return CommonShimmerWidgets.shimmerCircle(size: widget.width ?? 44);
     } else {
       return CommonShimmerWidgets.shimmerBox(
         width: widget.width ?? 44,

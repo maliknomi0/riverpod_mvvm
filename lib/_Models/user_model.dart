@@ -1,88 +1,121 @@
 class UserModel {
-  final String id;
+  final int userId;
   final String skuId;
   final String name;
   final String username;
   final String email;
-  final String phone;
-  final String profileImage;
-  final String gender;
-  final String dateOfBirth;
-  final String address;
+  final String phoneNo;
+  final String? profilePic;
+  final String? gender;
+  final String? dateOfBirth;
+  final String? address;
   final String countryCode;
-  final String country;
+  final String? country;
   final bool isDeleted;
   final bool isBlocked;
   final String role;
-  final String? deletionDate; // Nullable since it can be null
-  final String status;
+  final String subscriptionStatus;
+  final String? subscriptionStartDate;
+  final String? subscriptionEndDate;
+  final String subscriptionType;
+  final String? deletionDate;
+  final int? planId;
+  final int organizationId;
   final String lastIpAddress;
   final String deviceFingerprint;
   final String createdAt;
   final String updatedAt;
-  final String accountStatus;
+  final String organization;
+  final String referralCodeUsed;
+  late final bool allowNotification;
+  final bool? allowExerciseNotifications;
+  final bool? allowLogsNotifications;
+  final bool? allowNutritionNotifications;
+  final String fcmToken;
 
   UserModel({
-    required this.id,
+    required this.userId,
     required this.skuId,
     required this.name,
     required this.username,
     required this.email,
-    required this.phone,
-    this.profileImage = '', // Default to empty string
-    this.gender = '', // Default to empty string
-    this.dateOfBirth = '', // Default to empty string
-    this.address = '', // Default to empty string
-    this.countryCode = '', // Default to empty string
-    this.country = '', // Default to empty string
-    this.isDeleted = false, // Default to false
-    this.isBlocked = false, // Default to false
-    this.role = 'user', // Default to 'user'
-    this.deletionDate, // Nullable, no default
-    this.status = 'active', // Default to 'active'
-    this.lastIpAddress = '', // Default to empty string
-    this.deviceFingerprint = '', // Default to empty string
-    this.createdAt = '', // Default to empty string
-    this.updatedAt = '', // Default to empty string
-    this.accountStatus = 'active', // Default to 'active'
+    required this.phoneNo,
+    this.profilePic,
+    this.gender,
+    this.dateOfBirth,
+    this.address,
+    required this.countryCode,
+    this.country,
+    required this.isDeleted,
+    required this.isBlocked,
+    required this.role,
+    required this.subscriptionStatus,
+    this.subscriptionStartDate,
+    this.subscriptionEndDate,
+    required this.subscriptionType,
+    this.deletionDate,
+    this.planId,
+    required this.organizationId,
+    required this.lastIpAddress,
+    required this.deviceFingerprint,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.organization,
+    required this.referralCodeUsed,
+    required this.allowNotification,
+    this.allowExerciseNotifications,
+    this.allowLogsNotifications,
+    this.allowNutritionNotifications,
+    required this.fcmToken,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['userId']?.toString() ?? '',
+      userId: json['userId'] ?? 0,
       skuId: json['skuId'] ?? '',
       name: json['name'] ?? '',
       username: json['username'] ?? '',
       email: json['email'] ?? '',
-      phone: json['phoneNo'] ?? '',
-      profileImage: json['profilePic'] ?? '',
-      gender: json['gender'] ?? '',
-      dateOfBirth: json['dateOfBirth'] ?? '',
-      address: json['address'] ?? '',
+      phoneNo: json['phoneNo'] ?? '',
+      profilePic: json['profilePic'],
+      gender: json['gender'],
+      dateOfBirth: json['dateOfBirth'],
+      address: json['address'],
       countryCode: json['countryCode'] ?? '',
-      country: json['country'] ?? '',
+      country: json['country'],
       isDeleted: json['isDeleted'] ?? false,
       isBlocked: json['isBlocked'] ?? false,
-      role: json['role'] ?? 'user',
+      role: json['role'] ?? '',
+      subscriptionStatus: json['subscriptionStatus'] ?? '',
+      subscriptionStartDate: json['subscriptionStartDate'],
+      subscriptionEndDate: json['subscriptionEndDate'],
+      subscriptionType: json['subscriptionType'] ?? '',
       deletionDate: json['deletionDate'],
-      status: json['status'] ?? 'active',
+      planId: json['planId'],
+      organizationId: json['organizationId'] ?? 0,
       lastIpAddress: json['lastIpAddress'] ?? '',
       deviceFingerprint: json['deviceFingerprint'] ?? '',
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
-      accountStatus: json['accountStatus'] ?? 'active',
+      organization: json['organization'] ?? '',
+      referralCodeUsed: json['referralCodeUsed'] ?? '',
+      allowNotification: json['allowNotification'] ?? false,
+      allowExerciseNotifications: json['allowExerciseNotifications'] ?? false,
+      allowLogsNotifications: json['allowLogsNotifications'] ?? false,
+      allowNutritionNotifications: json['allowNutritionNotifications'] ?? false,
+      fcmToken: json['fcmToken'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'userId': id,
+      'userId': userId,
       'skuId': skuId,
       'name': name,
       'username': username,
       'email': email,
-      'phoneNo': phone,
-      'profilePic': profileImage,
+      'phoneNo': phoneNo,
+      'profilePic': profilePic,
       'gender': gender,
       'dateOfBirth': dateOfBirth,
       'address': address,
@@ -91,13 +124,100 @@ class UserModel {
       'isDeleted': isDeleted,
       'isBlocked': isBlocked,
       'role': role,
+      'subscriptionStatus': subscriptionStatus,
+      'subscriptionStartDate': subscriptionStartDate,
+      'subscriptionEndDate': subscriptionEndDate,
+      'subscriptionType': subscriptionType,
       'deletionDate': deletionDate,
-      'status': status,
+      'planId': planId,
+      'organizationId': organizationId,
       'lastIpAddress': lastIpAddress,
       'deviceFingerprint': deviceFingerprint,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
-      'accountStatus': accountStatus,
+      'organization': organization,
+      'referralCodeUsed': referralCodeUsed,
+      'allowNotification': allowNotification,
+      'allowExerciseNotifications': allowExerciseNotifications,
+      'allowLogsNotifications': allowLogsNotifications,
+      'allowNutritionNotifications': allowNutritionNotifications,
+      'fcmToken': fcmToken
     };
+  }
+
+  UserModel copyWith({
+    int? userId,
+    String? skuId,
+    String? name,
+    String? username,
+    String? email,
+    String? phoneNo,
+    String? profilePic,
+    String? gender,
+    String? dateOfBirth,
+    String? address,
+    String? countryCode,
+    String? country,
+    bool? isDeleted,
+    bool? isBlocked,
+    String? role,
+    String? subscriptionStatus,
+    String? subscriptionStartDate,
+    String? subscriptionEndDate,
+    String? subscriptionType,
+    String? deletionDate,
+    int? planId,
+    int? organizationId,
+    String? lastIpAddress,
+    String? deviceFingerprint,
+    String? createdAt,
+    String? updatedAt,
+    String? organization,
+    String? referralCodeUsed,
+    bool? allowNotification,
+    bool? allowExerciseNotifications,
+    bool? allowLogsNotifications,
+    bool? allowNutritionNotifications,
+    String? fcmToken,
+  }) {
+    return UserModel(
+      userId: userId ?? this.userId,
+      skuId: skuId ?? this.skuId,
+      name: name ?? this.name,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      phoneNo: phoneNo ?? this.phoneNo,
+      profilePic: profilePic ?? this.profilePic,
+      gender: gender ?? this.gender,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      address: address ?? this.address,
+      countryCode: countryCode ?? this.countryCode,
+      country: country ?? this.country,
+      isDeleted: isDeleted ?? this.isDeleted,
+      isBlocked: isBlocked ?? this.isBlocked,
+      role: role ?? this.role,
+      subscriptionStatus: subscriptionStatus ?? this.subscriptionStatus,
+      subscriptionStartDate:
+          subscriptionStartDate ?? this.subscriptionStartDate,
+      subscriptionEndDate: subscriptionEndDate ?? this.subscriptionEndDate,
+      subscriptionType: subscriptionType ?? this.subscriptionType,
+      deletionDate: deletionDate ?? this.deletionDate,
+      planId: planId ?? this.planId,
+      organizationId: organizationId ?? this.organizationId,
+      lastIpAddress: lastIpAddress ?? this.lastIpAddress,
+      deviceFingerprint: deviceFingerprint ?? this.deviceFingerprint,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      organization: organization ?? this.organization,
+      referralCodeUsed: referralCodeUsed ?? this.referralCodeUsed,
+      allowNotification: allowNotification ?? this.allowNotification,
+      allowExerciseNotifications:
+          allowExerciseNotifications ?? this.allowExerciseNotifications,
+      allowLogsNotifications:
+          allowLogsNotifications ?? this.allowLogsNotifications,
+      allowNutritionNotifications:
+          allowNutritionNotifications ?? this.allowNutritionNotifications,
+      fcmToken: fcmToken ?? this.fcmToken,
+    );
   }
 }

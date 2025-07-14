@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../services/storage.dart';
+import '../_services/StorageService.dart';
 
 class ThemeController extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
@@ -12,14 +12,14 @@ class ThemeController extends ChangeNotifier {
   }
 
   Future<void> _loadTheme() async {
-    final storedTheme = await Storage().getThemeMode();
-    _themeMode = storedTheme ?? ThemeMode.system;
+    final storedTheme = await StorageService().getThemeMode();
+    _themeMode = storedTheme;
     notifyListeners();
   }
 
   void updateTheme(ThemeMode mode) {
     _themeMode = mode;
-    Storage().saveThemeMode(mode);
+    StorageService().saveThemeMode(mode);
     notifyListeners();
   }
 }

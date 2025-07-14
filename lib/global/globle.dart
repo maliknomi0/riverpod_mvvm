@@ -1,6 +1,6 @@
 // globals.dart
-library globals;
+library;
 
-import 'package:zene/_Models/user_model.dart';
+import 'package:riverpordmvvm/_Models/user_model.dart';
 
 UserModel? userSD;

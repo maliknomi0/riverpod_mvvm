@@ -4,19 +4,19 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:zene/_Controller/language_controller.dart';
-import 'package:zene/_Controller/signup_controller.dart';
-import 'package:zene/Configs/Assets.dart';
-import 'package:zene/Utils/mysnackbar.dart';
-import 'package:zene/Utils/screen.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/Screens/initals/login/login.dart';
-import 'package:zene/_views/widgets/CustomCheckBox.dart';
-import 'package:zene/_views/widgets/MyButton.dart';
-import 'package:zene/_views/widgets/MyText.dart';
-import 'package:zene/_views/widgets/my_text_field.dart';
-import 'package:zene/_views/widgets/common_image.dart';
-import 'package:zene/_views/widgets/my_custom_navigator.dart';
+import 'package:riverpordmvvm/_Controller/language_controller.dart';
+import 'package:riverpordmvvm/_Controller/signup_controller.dart';
+import 'package:riverpordmvvm/Configs/Assets.dart';
+import 'package:riverpordmvvm/Utils/Mysnackbar.dart';
+import 'package:riverpordmvvm/Utils/screen.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/_views/Screens/initals/login/login.dart';
+import 'package:riverpordmvvm/_views/widgets/CustomCheckBox.dart';
+import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
+import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
+import 'package:riverpordmvvm/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -161,8 +161,9 @@ class _SignUpState extends State<SignUp> {
                             final email = _emailController.text.trim();
                             final phone = _phoneNumberController.text.trim();
                             final password = _passwordController.text.trim();
-                            final confirmPassword =
-                                _confirmPasswordController.text.trim();
+                            final confirmPassword = _confirmPasswordController
+                                .text
+                                .trim();
 
                             if (name.isEmpty ||
                                 email.isEmpty ||

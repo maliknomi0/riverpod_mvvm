@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zene/_Controller/language_controller.dart'; // LocaleProvider
-import 'package:zene/_Controller/theme_Controller.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/Screens/language_selection_page.dart';
+import 'package:riverpordmvvm/_Controller/language_controller.dart'; // LocaleProvider
+import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/_views/Screens/language_selection_page.dart';
 
 class LanguageBar extends StatefulWidget implements PreferredSizeWidget {
   final String? title;
@@ -33,10 +33,9 @@ class _LanguageBarState extends State<LanguageBar> {
     final systemIsDark = Theme.of(context).brightness == Brightness.dark;
 
     // Determine actual dark mode status
-    final isDarkMode =
-        themeMode == ThemeMode.system
-            ? systemIsDark
-            : themeMode == ThemeMode.dark;
+    final isDarkMode = themeMode == ThemeMode.system
+        ? systemIsDark
+        : themeMode == ThemeMode.dark;
 
     return AppBar(
       title: widget.title != null ? Text(widget.title!.tr()) : null,
@@ -51,12 +50,13 @@ class _LanguageBarState extends State<LanguageBar> {
                   pageBuilder: (_, __, ___) => LanguageSelectionPage(),
                   transitionsBuilder: (_, animation, __, child) {
                     return SlideTransition(
-                      position: Tween(
-                        begin: Offset(1.0, 0.0),
-                        end: Offset.zero,
-                      ).animate(
-                        CurvedAnimation(parent: animation, curve: Curves.ease),
-                      ),
+                      position: Tween(begin: Offset(1.0, 0.0), end: Offset.zero)
+                          .animate(
+                            CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.ease,
+                            ),
+                          ),
                       child: child,
                     );
                   },

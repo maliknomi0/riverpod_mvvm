@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zene/Configs/Assets.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/Screens/profile/wishlist/wishlist.dart';
-import 'package:zene/_views/widgets/common_image.dart';
-import 'package:zene/_views/widgets/my_custom_navigator.dart';
+import 'package:riverpordmvvm/Configs/Assets.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
 
 class MyCustomAppBar extends StatelessWidget {
   const MyCustomAppBar({super.key});
@@ -25,7 +24,6 @@ class MyCustomAppBar extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  MyCustomNavigator.push(context, const Wishlist());
                 },
                 child: CommonImageView(
                   imagePath: AppIamges.iconsfav,

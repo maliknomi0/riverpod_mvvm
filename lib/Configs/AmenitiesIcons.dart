@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zene/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/_views/widgets/common_image.dart';
 
 class AmenitiesIcons {
   static Widget airConditioning = CommonImageView(

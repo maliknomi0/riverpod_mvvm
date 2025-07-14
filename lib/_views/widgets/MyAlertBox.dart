@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zene/themes/theme_constants.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class MyAlertBox extends StatelessWidget {
   final String title;

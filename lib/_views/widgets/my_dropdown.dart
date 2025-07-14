@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zene/_Controller/theme_Controller.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/_views/widgets/MyText.dart';
 
 class MyDropdown<T> extends StatefulWidget {
   const MyDropdown({
@@ -116,24 +116,22 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
     final themeMode = context.watch<ThemeController>().themeMode;
     final systemIsDark = Theme.of(context).brightness == Brightness.dark;
 
-    final isDarkMode =
-        widget.isDark
-            ? true
-            : themeMode == ThemeMode.system
-            ? systemIsDark
-            : themeMode == ThemeMode.dark;
+    final isDarkMode = widget.isDark
+        ? true
+        : themeMode == ThemeMode.system
+        ? systemIsDark
+        : themeMode == ThemeMode.dark;
 
-    final dropdownDecoration =
-        isDarkMode
-            ? BoxDecoration(
-              borderRadius: BorderRadius.circular(widget.radius ?? 25),
-              gradient: lightAppGradiant,
-            )
-            : BoxDecoration(
-              borderRadius: BorderRadius.circular(widget.radius ?? 25),
-              gradient: darkAppGradiant,
-              border: Border.all(color: blackColor),
-            );
+    final dropdownDecoration = isDarkMode
+        ? BoxDecoration(
+            borderRadius: BorderRadius.circular(widget.radius ?? 25),
+            gradient: lightAppGradiant,
+          )
+        : BoxDecoration(
+            borderRadius: BorderRadius.circular(widget.radius ?? 25),
+            gradient: darkAppGradiant,
+            border: Border.all(color: blackColor),
+          );
 
     return SlideTransition(
       position: _slideAnimation,
@@ -155,14 +153,13 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
                           size: widget.labelSize ?? 14,
                           paddingBottom: 8,
                           weight: widget.labelWeight ?? FontWeight.w400,
-                          color:
-                              isFocused
-                                  ? widget.focusedLabelColor ??
-                                      Theme.of(context).primaryColor
-                                  : widget.labelColor ??
-                                      Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge?.color,
+                          color: isFocused
+                              ? widget.focusedLabelColor ??
+                                    Theme.of(context).primaryColor
+                              : widget.labelColor ??
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge?.color,
                         ),
                         if (widget.isoptional == true)
                           const MyText(
@@ -203,22 +200,17 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
                         hintStyle: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
-                          color:
-                              isFocused
-                                  ? widget.fhintColor ??
-                                      Theme.of(
-                                        context,
-                                      ).hintColor.withOpacity(0.7)
-                                  : widget.hintColor ??
-                                      Theme.of(context).hintColor,
+                          color: isFocused
+                              ? widget.fhintColor ??
+                                    Theme.of(context).hintColor.withOpacity(0.7)
+                              : widget.hintColor ?? Theme.of(context).hintColor,
                         ),
-                        suffixIcon:
-                            widget.suffixIcon != null
-                                ? GestureDetector(
-                                  onTap: widget.suffixTap,
-                                  child: widget.suffixIcon,
-                                )
-                                : null,
+                        suffixIcon: widget.suffixIcon != null
+                            ? GestureDetector(
+                                onTap: widget.suffixTap,
+                                child: widget.suffixIcon,
+                              )
+                            : null,
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         border: InputBorder.none,

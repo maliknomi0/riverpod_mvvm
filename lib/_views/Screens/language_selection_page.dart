@@ -1,9 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:zene/_Controller/language_controller.dart'; // Your LocaleProvider
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/_Controller/language_controller.dart'; // Your LocaleProvider
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/_views/widgets/MyText.dart';
 
 class LanguageSelectionPage extends StatelessWidget {
   LanguageSelectionPage({super.key});
@@ -41,8 +40,9 @@ class LanguageSelectionPage extends StatelessWidget {
                 lang['label'],
                 weight: selected ? FontWeight.bold : FontWeight.normal,
               ),
-              trailing:
-                  selected ? Icon(Icons.check_circle, color: greyColor) : null,
+              trailing: selected
+                  ? Icon(Icons.check_circle, color: greyColor)
+                  : null,
               onTap: () async {
                 final selectedLocale = lang['locale'] as Locale;
                 await localeProvider.setLocale(selectedLocale);

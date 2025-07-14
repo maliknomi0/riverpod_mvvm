@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 import 'app_services.dart';
 
@@ -38,14 +39,14 @@ class ImageUploadService {
             return fileUrl; // Return the storedAt path
           }
         }
-        print('Image upload failed: No file URL found in response');
+        debugPrint('Image upload failed: No file URL found in response');
         return null;
       } else {
-        print('Image upload failed: ${response['message']}');
+        debugPrint('Image upload failed: ${response['message']}');
         return null;
       }
     } catch (e) {
-      print('Error uploading image: $e');
+      debugPrint('Error uploading image: $e');
       return null;
     }
   }

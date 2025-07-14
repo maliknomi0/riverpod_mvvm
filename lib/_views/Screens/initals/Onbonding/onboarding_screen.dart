@@ -1,152 +1,172 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:zene/_Controller/language_controller.dart';
-import 'package:zene/Configs/Assets.dart';
-import 'package:zene/_Models/onbondingModel.dart';
-import 'package:zene/services/storage.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/Screens/initals/login/login.dart';
-import 'package:zene/_views/widgets/LanguageCustomAppBar.dart';
-import 'package:zene/_views/widgets/MyButton.dart';
-import 'package:zene/_views/widgets/MyText.dart';
-import 'package:zene/_views/widgets/common_image.dart';
-import 'package:zene/_views/widgets/my_custom_navigator.dart';
+import 'package:riverpordmvvm/_services/StorageService.dart';
+import 'package:riverpordmvvm/_views/widgets/MyContainer.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});
 
   @override
-  State<OnBoarding> createState() => _OnBoardingState();
+  _OnBoardingState createState() => _OnBoardingState();
 }
 
 class _OnBoardingState extends State<OnBoarding> {
-  PageController controller = PageController();
-  final Storage _storage = Storage(); // Add Storage instance
-  int pageIndex = 0;
-  List<PageModel> pageList = [
-    PageModel(
-      image: AppIamges.onboarding1,
-      title: 'onbondingtitle1',
-      body: 'onbondingbody1',
-    ),
-    PageModel(
-      image: AppIamges.onboarding2,
-      title: 'onbondingtitle2',
-      body: 'onbondingbody2',
-    ),
-    PageModel(
-      image: AppIamges.onboarding3,
-      title: 'onbondingtitle3',
-      body: 'onbondingbody3',
-    ),
+  int contentState = 0;
+
+  final List<String> titles = [
+    'Track your progress',
+    'Smart nutrition planning',
+    'Personal coaching made simple',
+  ];
+
+  final List<String> descriptions = [
+    'Stay on top of your fitness journey.\nLog meals, water, and workouts, all in one place.\nGet real-time updates and track every goal.',
+    'Access personalized meal ideas every day.\nGet full macros, portions, and recipe details.\nFuel your body the right way.',
+    'Train one-on-one with expert coaches.\nWhether online or face-to-face,\nyour transformation starts with us.',
+  ];
+
+  final List<String> images = [
+    'assets/images/ob1.png',
+    'assets/images/ob2.png',
+    'assets/images/ob3.png', // Add a third image for the last screen
   ];
 
   @override
-  Widget build(BuildContext context) {
-    context.watch<LocaleProvider>();
-
-    return Scaffold(
-      appBar: LanguageBar(),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: PageView.builder(
-              controller: controller,
-              physics: const ScrollPhysics(),
-              onPageChanged: (val) {
-                if (mounted) {
-                  setState(() {
-                    pageIndex = val;
-                  });
-                }
-              },
-              itemCount: pageList.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, i) {
-                return PageSlider(
-                  image: pageList[i].image,
-                  title: pageList[i].title,
-                  body: pageList[i].body,
-                );
-              },
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.sizeOf(context).height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                  child: MyButton(
-                    radius: 10,
-                    width: MediaQuery.sizeOf(context).width,
-                    onTap: () async {
-                      if (pageIndex == 0) {
-                        controller.jumpToPage(1);
-                      } else if (pageIndex == 1) {
-                        controller.jumpToPage(2);
-                      } else {
-                        await _storage.setOnboardingComplete();
-                        MyCustomNavigator.removeUntil(context, Login());
-                      }
-                    },
-                    buttonText:
-                        pageIndex == 0
-                            ? "next"
-                            : pageIndex == 1
-                            ? "next"
-                            : "proceed_to_login",
-                  ),
-                ),
-                const SizedBox(height: 18),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+  void initState() {
+    super.initState();
   }
-}
 
-class PageSlider extends StatelessWidget {
-  const PageSlider({
-    super.key,
-    required this.image,
-    required this.title,
-    required this.body,
-  });
-
-  final String image;
-  final String title;
-  final String body;
+  String getTitle(int index) => titles[index];
+  String getDescription(int index) => descriptions[index];
+  String getImage(int index) => images[index];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CommonImageView(
-          height: MediaQuery.sizeOf(context).height / 2,
-          width: MediaQuery.sizeOf(context).width,
-          imagePath: image,
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 0.0),
+              child: Image(
+                height: 640.0,
+                image: AssetImage(getImage(contentState)),
+              ),
+            ),
+
+            // Top Navigation
+            Container(
+              padding: const EdgeInsets.all(24.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  contentState != 0
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              contentState--;
+                            });
+                          },
+                          child: const Icon(Icons.arrow_back_ios, size: 18.0),
+                        )
+                      : const SizedBox(),
+                  contentState != 2
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              contentState = 2;
+                            });
+                          },
+                          child: const Text(
+                            'Skip',
+                            style: TextStyle(
+                              fontSize: 19.0,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
+                      : const SizedBox(),
+                ],
+              ),
+            ),
+
+            // Bottom Content
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(30.0),
+                  topRight: Radius.circular(30.0),
+                ),
+                child: MyContainer(
+                  paddingBottom: 32.0,
+                  paddingTop: 32.0,
+                  paddingLeft: 32.0,
+                  paddingRight: 32.0,
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        getTitle(contentState),
+                        style: const TextStyle(
+                          fontSize: 22.0,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        getDescription(contentState),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      const SizedBox(height: 40.0),
+
+                      // Indicators and Next Button
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: List.generate(3, (index) {
+                              return Container(
+                                margin: const EdgeInsets.only(right: 4.0),
+                                height: 4.0,
+                                width: contentState == index ? 18.0 : 12.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  color: contentState == index
+                                      ? lightPrimaryColor
+                                      : const Color(0xFFCBD6F3),
+                                ),
+                              );
+                            }),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                if (contentState < 2) {
+                                  contentState++;
+                                } else {
+                                  StorageService().setOnboardingComplete();
+                                  Navigator.pop(context); // End onboarding
+                                }
+                              });
+                            },
+                            child: const Icon(Icons.arrow_forward),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        SizedBox(height: 28),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(title.tr(), style: AppOnBoardingText),
-              const SizedBox(height: 6),
-              MyText(body, size: 16, weight: FontWeight.w400),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

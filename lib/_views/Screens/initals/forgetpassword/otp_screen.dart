@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zene/_Controller/ForgetPasswordController.dart';
-import 'package:zene/Utils/screen.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/widgets/MyButton.dart';
-import 'package:zene/_views/widgets/MyText.dart';
-import 'package:zene/_views/widgets/my_otp_text_field.dart';
+import 'package:riverpordmvvm/Utils/screen.dart';
+import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
+import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
+import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/_views/widgets/my_otp_text_field.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class OTPVerificationScreen extends StatefulWidget {
   final String email;
@@ -153,8 +153,8 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                         canResend
                             ? 'can_resend_otp'.tr()
                             : 'resend_otp_in'.tr(
-                              namedArgs: {'seconds': '$remainingTime'},
-                            ),
+                                namedArgs: {'seconds': '$remainingTime'},
+                              ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 8),

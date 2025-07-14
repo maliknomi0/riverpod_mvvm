@@ -1,20 +1,25 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:zene/services/storage.dart';
+import 'package:riverpordmvvm/_services/StorageService.dart';
 
 class LocaleProvider with ChangeNotifier {
   Locale _locale;
-  final Storage _storage = Storage(); // 🔹 Add this line to initialize storage
+  final StorageService _storage = StorageService();
 
   Locale get locale => _locale;
 
   LocaleProvider({required Locale initialLocale}) : _locale = initialLocale;
 
-  Future<void> setLocale(Locale locale) async {
+  Future<void> setLocale(
+    Locale locale, {
+    BuildContext? context,
+  }) async {
     if (_locale != locale) {
       _locale = locale;
-      await _storage.saveLanguage(
-        locale.languageCode,
-      ); // use the method from Storage
+      await _storage.saveLanguage(locale.languageCode);
+      if (context != null) {
+        await context.setLocale(locale);
+      }
       notifyListeners();
     }
   }

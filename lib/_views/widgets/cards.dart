@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:zene/Utils/formate.dart';
-import 'package:zene/config.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/widgets/MyContainer.dart';
-import 'package:zene/_views/widgets/MyText.dart';
-import 'package:zene/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/Utils/formate.dart';
+import 'package:riverpordmvvm/config.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/_views/widgets/MyContainer.dart';
+import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/_views/widgets/common_image.dart';
 
 class myCard extends StatelessWidget {
   final dynamic product; // Product data (can be null for placeholder)
@@ -42,14 +42,12 @@ class myCard extends StatelessWidget {
 
     final displayCategory = product?.category ?? "Category";
     final displayTitle = product?.title ?? "Product Title";
-    final displayPrice =
-        product?.finalPrice != null
-            ? "AED ${formatPrice(product.finalPrice)}"
-            : "AED 0.00";
-    final imageUrl =
-        product != null && product.images.isNotEmpty
-            ? "${Configs.baseUrl}${product.images[0]}"
-            : null;
+    final displayPrice = product?.finalPrice != null
+        ? "AED ${formatPrice(product.finalPrice)}"
+        : "AED 0.00";
+    final imageUrl = product != null && product.images.isNotEmpty
+        ? "${Configs.baseUrl}${product.images[0]}"
+        : null;
 
     return MyContainer(
       width: defaultWidth,
@@ -77,9 +75,8 @@ class myCard extends StatelessWidget {
               ),
               child: CommonImageView(
                 url: imageUrl,
-                fit:
-                    BoxFit
-                        .cover, // Or BoxFit.contain if you want full image shown
+                fit: BoxFit
+                    .cover, // Or BoxFit.contain if you want full image shown
                 width: double.infinity,
                 height: double.infinity,
               ),

@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zene/_Controller/theme_Controller.dart';
-import 'package:zene/themes/theme_constants.dart';
-import 'package:zene/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/_views/widgets/MyText.dart';
 
 class MyTextField extends StatefulWidget {
   const MyTextField({
@@ -132,10 +132,9 @@ class _MyTextFieldState extends State<MyTextField>
     final systemIsDark = Theme.of(context).brightness == Brightness.dark;
 
     // Determine actual dark mode status
-    final isDarkMode =
-        themeMode == ThemeMode.system
-            ? systemIsDark
-            : themeMode == ThemeMode.dark;
+    final isDarkMode = themeMode == ThemeMode.system
+        ? systemIsDark
+        : themeMode == ThemeMode.dark;
 
     return SlideTransition(
       position: _slideAnimation,
@@ -157,10 +156,9 @@ class _MyTextFieldState extends State<MyTextField>
                           size: widget.labelSize ?? 14,
                           paddingBottom: 8,
                           weight: widget.labelWeight ?? FontWeight.w400,
-                          color:
-                              isFocused
-                                  ? widget.focusedLabelColor
-                                  : widget.labelColor,
+                          color: isFocused
+                              ? widget.focusedLabelColor
+                              : widget.labelColor,
                         ),
                         if (widget.isoptional == true)
                           const MyText(
@@ -176,22 +174,20 @@ class _MyTextFieldState extends State<MyTextField>
                 valueListenable: _focusNotifier,
                 builder: (_, isFocused, child) {
                   return Container(
-                    decoration:
-                        isDarkMode
-                            ? BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              gradient: lightAppGradiant,
-                            )
-                            : BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              gradient: darkAppGradiant,
-                              border: Border.all(color: blackColor),
-                            ), // ❌ No gradient for light mode
+                    decoration: isDarkMode
+                        ? BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            gradient: lightAppGradiant,
+                          )
+                        : BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            gradient: darkAppGradiant,
+                            border: Border.all(color: blackColor),
+                          ), // ❌ No gradient for light mode
                     child: TextFormField(
                       readOnly: widget.readOnly ?? false,
-                      onTap:
-                          widget
-                              .onTap, // Pass the onTap callback to TextFormField
+                      onTap: widget
+                          .onTap, // Pass the onTap callback to TextFormField
                       keyboardType: widget.keyboardType,
                       maxLines: widget.maxLines ?? 1,
                       controller: widget.controller,
@@ -205,10 +201,9 @@ class _MyTextFieldState extends State<MyTextField>
                         fontWeight: FontWeight.w400,
                       ),
                       validator: widget.validator,
-                      textAlign:
-                          widget.isright == true
-                              ? TextAlign.right
-                              : TextAlign.left,
+                      textAlign: widget.isright == true
+                          ? TextAlign.right
+                          : TextAlign.left,
                       focusNode: _focusNode,
                       decoration: InputDecoration(
                         prefixIcon: widget.prefixIcon,
@@ -218,70 +213,67 @@ class _MyTextFieldState extends State<MyTextField>
                           vertical: 5,
                         ),
                         hintText: widget.hint?.tr(),
-                        suffixIcon:
-                            widget.suffixIcon != null
-                                ? GestureDetector(
-                                  onTap: widget.suffixTap,
-                                  child: widget.suffixIcon,
-                                )
-                                : null,
+                        suffixIcon: widget.suffixIcon != null
+                            ? GestureDetector(
+                                onTap: widget.suffixTap,
+                                child: widget.suffixIcon,
+                              )
+                            : null,
                         suffixStyle: TextStyle(
                           fontSize: 14,
-                          color:
-                              isFocused ? widget.fhintColor : widget.hintColor,
+                          color: isFocused
+                              ? widget.fhintColor
+                              : widget.hintColor,
                         ),
                         suffixText: widget.suffixtext,
                         hintStyle: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.normal,
-                          color:
-                              isFocused ? widget.fhintColor : widget.hintColor,
+                          color: isFocused
+                              ? widget.fhintColor
+                              : widget.hintColor,
                         ),
                         filled: true,
-                        fillColor:
-                            isFocused
-                                ? widget.focusedFilledColor ??
-                                    TransparentColor.withOpacity(0.03)
-                                : widget.filledColor ?? TransparentColor,
-                        enabledBorder:
-                            widget.useOutlinedBorder == true
-                                ? OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:
-                                        widget.bordercolor ?? TransparentColor,
-                                    width: 1,
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                    widget.radius ?? 10,
-                                  ),
-                                )
-                                : UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:
-                                        widget.bordercolor ?? lightPrimaryColor,
-                                    width: 1,
-                                  ),
+                        fillColor: isFocused
+                            ? widget.focusedFilledColor ??
+                                  TransparentColor.withOpacity(0.03)
+                            : widget.filledColor ?? TransparentColor,
+                        enabledBorder: widget.useOutlinedBorder == true
+                            ? OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: widget.bordercolor ?? TransparentColor,
+                                  width: 1,
                                 ),
-                        focusedBorder:
-                            widget.useOutlinedBorder == true
-                                ? OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:
-                                        widget.fbordercolor ?? TransparentColor,
-                                    width: 1.5,
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                    widget.radius ?? 10,
-                                  ),
-                                )
-                                : UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:
-                                        widget.bordercolor ??
-                                        lightPrimaryColor.withOpacity(0.3),
-                                    width: 1.5,
-                                  ),
+                                borderRadius: BorderRadius.circular(
+                                  widget.radius ?? 10,
                                 ),
+                              )
+                            : UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color:
+                                      widget.bordercolor ?? lightPrimaryColor,
+                                  width: 1,
+                                ),
+                              ),
+                        focusedBorder: widget.useOutlinedBorder == true
+                            ? OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color:
+                                      widget.fbordercolor ?? TransparentColor,
+                                  width: 1.5,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  widget.radius ?? 10,
+                                ),
+                              )
+                            : UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color:
+                                      widget.bordercolor ??
+                                      lightPrimaryColor.withOpacity(0.3),
+                                  width: 1.5,
+                                ),
+                              ),
                       ),
                     ),
                   );

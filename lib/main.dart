@@ -1,37 +1,50 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:zene/Configs/Routes.dart';
-import 'package:zene/_Controller/DeleteAccountController.dart';
-import 'package:zene/_Controller/EditProfileController.dart';
-import 'package:zene/_Controller/ForgetPasswordController.dart';
-import 'package:zene/_Controller/Login_controller.dart';
-import 'package:zene/_Controller/bottom_nav_controller.dart';
-import 'package:zene/_Controller/cars_controller.dart';
-import 'package:zene/_Controller/experienceController.dart';
-import 'package:zene/_Controller/jets_controller.dart';
-import 'package:zene/_Controller/language_controller.dart';
-import 'package:zene/_Controller/properties_controller.dart';
-import 'package:zene/_Controller/services_controllers.dart';
-import 'package:zene/_Controller/shopping_controllers.dart';
-import 'package:zene/_Controller/signup_controller.dart';
-import 'package:zene/_Controller/transport_booking_controller.dart';
-import 'package:zene/_Controller/yatchs_controllers.dart';
-import 'package:zene/services/storage.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:riverpordmvvm/Configs/Routes.dart';
+import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
+import 'package:riverpordmvvm/_Controller/Login_controller.dart';
+import 'package:riverpordmvvm/_Controller/signup_controller.dart';
+import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
 
-import '_Controller/theme_Controller.dart';
+import 'package:riverpordmvvm/_services/StorageService.dart';
+import 'package:riverpordmvvm/_services/fcm_handler.dart';
+import 'package:riverpordmvvm/_services/notification_services.dart';
+import 'package:riverpordmvvm/config.dart';
+import 'package:riverpordmvvm/firebase_options.dart';
+import 'package:riverpordmvvm/global/globle.dart';
+
 import 'themes/app_themes.dart';
+
+// Handler for background messages from Firebase Messaging
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // You can handle the message here, e.g., show a notification
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await Hive.initFlutter();
+  StorageService storage = StorageService();
+  await storage.init();
 
-  Storage storage = Storage();
+  final user = await storage.getLogin();
+
+  if (user != null) {
+    userSD = user; // 💾 global user set karo
+    await FCMService().initializeAndSendToken(); // 🔐 Token + permission
+    await FCMHandler.setupNotificationHandlers(); // 📩 Listener
+  }
   String savedLanguage = await storage.getLanguage();
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('ur'), Locale('ar')],
+      supportedLocales: const [Locale('en'), Locale('ar')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: Locale(savedLanguage),
@@ -41,18 +54,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => SignupController()),
           ChangeNotifierProvider(create: (_) => LoginController()),
           ChangeNotifierProvider(create: (_) => PasswordResetController()),
-          ChangeNotifierProvider(create: (_) => EditProfileController()),
-          ChangeNotifierProvider(create: (_) => DeleteAccountController()),
-          ChangeNotifierProvider(create: (_) => BottomNavController()),
-          ChangeNotifierProvider(create: (_) => CarsController()),
-          ChangeNotifierProvider(create: (_) => JetsController()),
-          ChangeNotifierProvider(create: (_) => ShoppingController()),
-          ChangeNotifierProvider(create: (_) => ExperienceController()),
-          ChangeNotifierProvider(create: (_) => PropertiesController()),
-          ChangeNotifierProvider(create: (_) => YachtsController()),
-          ChangeNotifierProvider(create: (_) => ServiceController()),
-          ChangeNotifierProvider(create: (_) => TransportBookingController()),
-          Provider<Storage>(create: (context) => Storage()), // Storage
+                  Provider<StorageService>(create: (context) => StorageService()),
           ChangeNotifierProvider(
             create: (_) => LocaleProvider(initialLocale: Locale(savedLanguage)),
           ),
@@ -69,11 +71,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = Provider.of<ThemeController>(context).themeMode;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       showPerformanceOverlay: false,
-      title: 'Zene',
+      title: '0NE',
       theme: AppThemes.lightTheme,
       darkTheme: AppThemes.darkTheme,
       themeMode: themeMode,
