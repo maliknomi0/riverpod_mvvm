@@ -4,7 +4,6 @@ import 'package:one/Controller/SplashController.dart';
 import 'package:one/_Configs/Assets.dart';
 import 'package:one/themes/theme_constants.dart';
 import 'package:one/widgets/common_image.dart';
-import 'package:provider/provider.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -46,52 +45,45 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: _controller,
-      child: Consumer<SplashController>(
-        builder: (context, controller, child) {
-          final isdarkMode = Theme.of(context).brightness == Brightness.dark;
-          return Scaffold(
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SlideTransition(
-                    position: controller.logoAnimation,
-                    child: CommonImageView(
-                      imagePath: AppIamges.Applogo,
-                      width: 120,
-                      color: isdarkMode ? whiteColor : blackColor,
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  SlideTransition(
-                    position: controller.headingAnimation,
-                    child: Text(
-                      'WELCOME TO ONE LIFESTYLE',
-                      style: GoogleFonts.anton(
-                        fontSize: 28,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  SlideTransition(
-                    position: controller.descriptionAnimation,
-                    child: Text(
-                      'One step closer to a better you',
-                      style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ],
+    final isdarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SlideTransition(
+              position: _controller.logoAnimation,
+              child: CommonImageView(
+                imagePath: AppIamges.Applogo,
+                width: 120,
+                color: isdarkMode ? whiteColor : blackColor,
               ),
             ),
-          );
-        },
+            const SizedBox(height: 30),
+            SlideTransition(
+              position: _controller.headingAnimation,
+                child: Text(
+                  'WELCOME TO ONE LIFESTYLE',
+                  style: GoogleFonts.anton(
+                    fontSize: 28,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+            SlideTransition(
+              position: _controller.descriptionAnimation,
+                child: Text(
+                  'One step closer to a better you',
+                  style: GoogleFonts.montserrat(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

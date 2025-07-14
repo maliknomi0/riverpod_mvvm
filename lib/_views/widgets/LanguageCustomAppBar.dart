@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/_Controller/language_controller.dart'; // LocaleProvider
 import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 import 'package:riverpordmvvm/_views/Screens/language_selection_page.dart';
 
-class LanguageBar extends StatefulWidget implements PreferredSizeWidget {
+class LanguageBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   final String? title;
 
   const LanguageBar({super.key, this.title});
@@ -15,10 +15,10 @@ class LanguageBar extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
-  State<LanguageBar> createState() => _LanguageBarState();
+  ConsumerState<LanguageBar> createState() => _LanguageBarState();
 }
 
-class _LanguageBarState extends State<LanguageBar> {
+class _LanguageBarState extends ConsumerState<LanguageBar> {
   @override
   void initState() {
     super.initState();
@@ -26,10 +26,10 @@ class _LanguageBarState extends State<LanguageBar> {
 
   @override
   Widget build(BuildContext context) {
-    final localeProvider = Provider.of<LocaleProvider>(context);
-    final currentLocale = localeProvider.locale;
+    final localeProv = ref.watch(localeProvider);
+    final currentLocale = localeProv.locale;
 
-    final themeMode = context.watch<ThemeController>().themeMode;
+    final themeMode = ref.watch(themeControllerProvider).themeMode;
     final systemIsDark = Theme.of(context).brightness == Brightness.dark;
 
     // Determine actual dark mode status
@@ -62,7 +62,7 @@ class _LanguageBarState extends State<LanguageBar> {
                   },
                 ),
               );
-              // Locale is handled by provider + easy_localization; no need to await or manually update.
+              // Locale is handled by Riverpod + easy_localization; no need to await or manually update.
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),

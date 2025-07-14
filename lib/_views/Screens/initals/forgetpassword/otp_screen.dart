@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
 import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
 import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
@@ -8,7 +8,7 @@ import 'package:riverpordmvvm/_views/widgets/MyText.dart';
 import 'package:riverpordmvvm/_views/widgets/my_otp_text_field.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 
-class OTPVerificationScreen extends StatefulWidget {
+class OTPVerificationScreen extends ConsumerStatefulWidget {
   final String email;
 
   const OTPVerificationScreen({super.key, required this.email});
@@ -17,7 +17,7 @@ class OTPVerificationScreen extends StatefulWidget {
   _OTPVerificationScreenState createState() => _OTPVerificationScreenState();
 }
 
-class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
+class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
   late List<TextEditingController> otpControllers;
   late List<FocusNode> focusNodes;
   bool canResend = false;
@@ -43,10 +43,7 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
   }
 
   void resendOTP() {
-    final controller = Provider.of<PasswordResetController>(
-      context,
-      listen: false,
-    );
+    final controller = ref.read(passwordResetControllerProvider);
     controller.sendOtp(widget.email, context);
     if (mounted) {
       setState(() {
@@ -137,12 +134,9 @@ class _OTPVerificationScreenState extends State<OTPVerificationScreen> {
                       const SizedBox(height: 30),
                       MyButton(
                         hasGradient: true,
-                        onTap: () {
+                      onTap: () {
                           final controller =
-                              Provider.of<PasswordResetController>(
-                                context,
-                                listen: false,
-                              );
+                              ref.read(passwordResetControllerProvider);
                           String otp = otpControllers.map((e) => e.text).join();
                           controller.verifyOtp(widget.email, otp, context);
                         },
