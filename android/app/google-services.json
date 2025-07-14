@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "481947662",
+    "project_id": "top-hat-security",
+    "storage_bucket": "top-hat-security.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481947662:android:436dfc720e5561f660cc5f",
+        "android_client_info": {
+          "package_name": "com.vendaxis.riverpordmvvm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYqN63x4sXlPsPZT_kW47UwlqtWlLlIUk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
