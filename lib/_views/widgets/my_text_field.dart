@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
@@ -128,19 +128,20 @@ class _MyTextFieldState extends State<MyTextField>
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = context.watch<ThemeController>().themeMode;
-    final systemIsDark = Theme.of(context).brightness == Brightness.dark;
+    return Consumer(
+      builder: (context, ref, child) {
+        final themeMode = ref.watch(themeControllerProvider).themeMode;
+        final systemIsDark = Theme.of(context).brightness == Brightness.dark;
 
-    // Determine actual dark mode status
-    final isDarkMode = themeMode == ThemeMode.system
-        ? systemIsDark
-        : themeMode == ThemeMode.dark;
+        final isDarkMode = themeMode == ThemeMode.system
+            ? systemIsDark
+            : themeMode == ThemeMode.dark;
 
-    return SlideTransition(
-      position: _slideAnimation,
-      child: FadeTransition(
-        opacity: _fadeAnimation,
-        child: Padding(
+        return SlideTransition(
+          position: _slideAnimation,
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: Padding(
           padding: EdgeInsets.only(bottom: widget.marginBottom!),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -283,6 +284,8 @@ class _MyTextFieldState extends State<MyTextField>
           ),
         ),
       ),
+    );
+      },
     );
   }
 }

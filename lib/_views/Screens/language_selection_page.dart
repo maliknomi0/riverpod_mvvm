@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/_Controller/language_controller.dart'; // Your LocaleProvider
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
 
-class LanguageSelectionPage extends StatelessWidget {
+class LanguageSelectionPage extends ConsumerWidget {
   LanguageSelectionPage({super.key});
 
   final List<Map<String, dynamic>> languages = [
@@ -14,9 +15,9 @@ class LanguageSelectionPage extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) {
-    final localeProvider = Provider.of<LocaleProvider>(context);
-    final currentLocale = localeProvider.locale;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final localeProv = ref.watch(localeProvider);
+    final currentLocale = localeProv.locale;
 
     return Scaffold(
       appBar: AppBar(title: Text('choose_language').tr()),
@@ -45,7 +46,7 @@ class LanguageSelectionPage extends StatelessWidget {
                   : null,
               onTap: () async {
                 final selectedLocale = lang['locale'] as Locale;
-                await localeProvider.setLocale(selectedLocale);
+                await localeProv.setLocale(selectedLocale);
                 await context.setLocale(selectedLocale);
                 Navigator.pop(context);
               },

@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/Configs/Assets.dart';
 import 'package:riverpordmvvm/Utils/Mysnackbar.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
@@ -13,20 +13,20 @@ import 'package:riverpordmvvm/_views/widgets/common_image.dart';
 import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 
-class ForgetPassword extends StatefulWidget {
+class ForgetPassword extends ConsumerStatefulWidget {
   const ForgetPassword({super.key});
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
 }
 
-class _ForgetPasswordState extends State<ForgetPassword> {
+class _ForgetPasswordState extends ConsumerState<ForgetPassword> {
   final TextEditingController emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     initScreenDimensions(context); // ✅ Load dimensions
-    Provider.of<LocaleProvider>(context);
+    ref.watch(localeProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -84,10 +84,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                           onTap: () {
                             final email = emailController.text.trim();
                             final controller =
-                                Provider.of<PasswordResetController>(
-                                  context,
-                                  listen: false,
-                                );
+                                ref.read(passwordResetControllerProvider);
 
                             if (email.isEmpty) {
                               Mysnackbar.showWarning(

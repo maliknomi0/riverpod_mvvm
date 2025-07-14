@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/Configs/Assets.dart';
 import 'package:riverpordmvvm/Utils/Mysnackbar.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
@@ -18,13 +18,13 @@ import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
 import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 
-class Login extends StatefulWidget {
+class Login extends ConsumerStatefulWidget {
   const Login({super.key});
   @override
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends ConsumerState<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     initScreenDimensions(context);
-    Provider.of<LocaleProvider>(context);
+    ref.watch(localeProvider);
 
     return Scaffold(
       appBar: LanguageBar(),
@@ -132,10 +132,7 @@ class _LoginState extends State<Login> {
                         ),
                         MyButton(
                           onTap: () {
-                            final controller = Provider.of<LoginController>(
-                              context,
-                              listen: false,
-                            );
+                            final controller = ref.read(loginControllerProvider);
                             final email = _emailController.text.trim();
                             final password = _passwordController.text.trim();
 

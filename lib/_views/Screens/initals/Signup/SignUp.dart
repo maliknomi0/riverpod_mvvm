@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/_Controller/language_controller.dart';
 import 'package:riverpordmvvm/_Controller/signup_controller.dart';
 import 'package:riverpordmvvm/Configs/Assets.dart';
@@ -18,14 +18,14 @@ import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
 import 'package:riverpordmvvm/_views/widgets/common_image.dart';
 import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
 
-class SignUp extends StatefulWidget {
+class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
 
   @override
   State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _SignUpState extends ConsumerState<SignUp> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -58,7 +58,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     initScreenDimensions(context);
-    Provider.of<LocaleProvider>(context);
+    ref.watch(localeProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -153,10 +153,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         MyButton(
                           onTap: () {
-                            final controller = Provider.of<SignupController>(
-                              context,
-                              listen: false,
-                            );
+                            final controller = ref.read(signupControllerProvider);
                             final name = _nameController.text.trim();
                             final email = _emailController.text.trim();
                             final phone = _phoneNumberController.text.trim();

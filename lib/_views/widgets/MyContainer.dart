@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 
@@ -93,11 +93,13 @@ class _MyContainerState extends State<MyContainer> {
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = context.watch<ThemeController>().themeMode;
-    final systemIsDark = Theme.of(context).brightness == Brightness.dark;
-    final isDarkMode = themeMode == ThemeMode.system
-        ? systemIsDark
-        : themeMode == ThemeMode.dark;
+    return Consumer(
+      builder: (context, ref, child) {
+        final themeMode = ref.watch(themeControllerProvider).themeMode;
+        final systemIsDark = Theme.of(context).brightness == Brightness.dark;
+        final isDarkMode = themeMode == ThemeMode.system
+            ? systemIsDark
+            : themeMode == ThemeMode.dark;
 
     // Default shadow if customShadow isn't provided
     final defaultShadow = BoxShadow(
@@ -183,5 +185,7 @@ class _MyContainerState extends State<MyContainer> {
             child: container,
           )
         : container;
+      },
+    );
   }
 }

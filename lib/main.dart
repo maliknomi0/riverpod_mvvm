@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:riverpordmvvm/Configs/Routes.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
 import 'package:riverpordmvvm/_Controller/Login_controller.dart';
 import 'package:riverpordmvvm/_Controller/signup_controller.dart';
@@ -15,6 +16,7 @@ import 'package:riverpordmvvm/_services/notification_services.dart';
 import 'package:riverpordmvvm/config.dart';
 import 'package:riverpordmvvm/firebase_options.dart';
 import 'package:riverpordmvvm/global/globle.dart';
+import 'providers.dart';
 
 import 'themes/app_themes.dart';
 
@@ -48,15 +50,10 @@ void main() async {
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: Locale(savedLanguage),
-      child: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (context) => ThemeController()),
-          ChangeNotifierProvider(create: (_) => SignupController()),
-          ChangeNotifierProvider(create: (_) => LoginController()),
-          ChangeNotifierProvider(create: (_) => PasswordResetController()),
-                  Provider<StorageService>(create: (context) => StorageService()),
-          ChangeNotifierProvider(
-            create: (_) => LocaleProvider(initialLocale: Locale(savedLanguage)),
+      child: ProviderScope(
+        overrides: [
+          localeProvider.overrideWith(
+            (ref) => LocaleProvider(initialLocale: Locale(savedLanguage)),
           ),
         ],
         child: const MyApp(),
@@ -65,12 +62,12 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final themeMode = Provider.of<ThemeController>(context).themeMode;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeControllerProvider).themeMode;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       showPerformanceOverlay: false,
