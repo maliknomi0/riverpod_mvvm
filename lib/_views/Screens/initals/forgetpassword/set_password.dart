@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:riverpordmvvm/Configs/Assets.dart';
-import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
 import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
 import 'package:riverpordmvvm/_views/widgets/common_image.dart';
 import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
+import 'package:riverpordmvvm/providers.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 import '../../../../Utils/Mysnackbar.dart';
@@ -18,7 +18,7 @@ class SetPassword extends ConsumerStatefulWidget {
   const SetPassword({super.key, required this.email, required this.otp});
 
   @override
-  State<SetPassword> createState() => _SetPasswordState();
+  ConsumerState<SetPassword> createState() => _SetPasswordState();
 }
 
 class _SetPasswordState extends ConsumerState<SetPassword> {
@@ -111,8 +111,9 @@ class _SetPasswordState extends ConsumerState<SetPassword> {
                   MyButton(
                     hasGradient: true,
                     onTap: () {
-                      final controller =
-                          ref.read(passwordResetControllerProvider);
+                      final controller = ref.read(
+                        passwordResetControllerProvider,
+                      );
                       final password = passwordController.text.trim();
                       final confirmPassword = confirmPasswordController.text
                           .trim();

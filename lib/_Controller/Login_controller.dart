@@ -8,13 +8,14 @@ import 'package:riverpordmvvm/_services/StorageService.dart';
 import 'package:riverpordmvvm/_services/app_services.dart';
 import 'package:riverpordmvvm/_services/fcm_handler.dart';
 import 'package:riverpordmvvm/_services/notification_services.dart';
-import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
 import 'package:riverpordmvvm/global/globle.dart';
 
 class LoginController extends ChangeNotifier {
   final AppService _appService = AppService();
   Future<void> googleSignup(
-      Map<String, dynamic> data, BuildContext context) async {
+    Map<String, dynamic> data,
+    BuildContext context,
+  ) async {
     showLoader(context, "logging_in");
 
     try {
@@ -47,7 +48,6 @@ class LoginController extends ChangeNotifier {
           await Future.delayed(const Duration(milliseconds: 100));
           try {
             // MyCustomNavigator.replace(context, const BottomBarNav());
-
           } catch (e) {
             // Navigation error silently ignored
           }
@@ -57,8 +57,10 @@ class LoginController extends ChangeNotifier {
 
         if (message.toLowerCase().contains('user already exists')) {
           Navigator.pop(context);
-          await login(
-              {'email': data['email'], 'password': data['password']}, context);
+          await login({
+            'email': data['email'],
+            'password': data['password'],
+          }, context);
         } else {
           throw AppException(message.isNotEmpty ? message : "signup_failed");
         }
@@ -66,8 +68,10 @@ class LoginController extends ChangeNotifier {
     } on AppException catch (e) {
       if (e.message.toLowerCase().contains('user already exists')) {
         if (context.mounted) Navigator.pop(context);
-        await login(
-            {'email': data['email'], 'password': data['password']}, context);
+        await login({
+          'email': data['email'],
+          'password': data['password'],
+        }, context);
       } else {
         if (context.mounted) {
           Navigator.pop(context);
@@ -86,7 +90,9 @@ class LoginController extends ChangeNotifier {
   }
 
   Future<void> appleSignup(
-      Map<String, dynamic> data, BuildContext context) async {
+    Map<String, dynamic> data,
+    BuildContext context,
+  ) async {
     showLoader(context, "logging_in");
 
     try {
@@ -128,8 +134,10 @@ class LoginController extends ChangeNotifier {
 
         if (message.toLowerCase().contains('user already exists')) {
           Navigator.pop(context);
-          await login(
-              {'email': data['email'], 'password': data['password']}, context);
+          await login({
+            'email': data['email'],
+            'password': data['password'],
+          }, context);
         } else {
           throw AppException(message.isNotEmpty ? message : "signup_failed");
         }
@@ -137,8 +145,10 @@ class LoginController extends ChangeNotifier {
     } on AppException catch (e) {
       if (e.message.toLowerCase().contains('user already exists')) {
         if (context.mounted) Navigator.pop(context);
-        await login(
-            {'email': data['email'], 'password': data['password']}, context);
+        await login({
+          'email': data['email'],
+          'password': data['password'],
+        }, context);
       } else {
         if (context.mounted) {
           Navigator.pop(context);

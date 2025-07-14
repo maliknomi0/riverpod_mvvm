@@ -2,22 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:riverpordmvvm/Configs/Routes.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
-import 'package:riverpordmvvm/_Controller/Login_controller.dart';
-import 'package:riverpordmvvm/_Controller/signup_controller.dart';
-import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
-
+import 'package:riverpordmvvm/_Controller/language_controller.dart';
 import 'package:riverpordmvvm/_services/StorageService.dart';
 import 'package:riverpordmvvm/_services/fcm_handler.dart';
 import 'package:riverpordmvvm/_services/notification_services.dart';
-import 'package:riverpordmvvm/config.dart';
 import 'package:riverpordmvvm/firebase_options.dart';
 import 'package:riverpordmvvm/global/globle.dart';
-import 'providers.dart';
 
+import 'providers.dart';
 import 'themes/app_themes.dart';
 
 // Handler for background messages from Firebase Messaging

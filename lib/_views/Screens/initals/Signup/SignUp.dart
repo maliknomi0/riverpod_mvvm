@@ -2,27 +2,26 @@ import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_Controller/language_controller.dart';
-import 'package:riverpordmvvm/_Controller/signup_controller.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:riverpordmvvm/Configs/Assets.dart';
 import 'package:riverpordmvvm/Utils/Mysnackbar.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
 import 'package:riverpordmvvm/_views/Screens/initals/login/login.dart';
 import 'package:riverpordmvvm/_views/widgets/CustomCheckBox.dart';
 import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
-import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
 import 'package:riverpordmvvm/_views/widgets/common_image.dart';
 import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
+import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
+import 'package:riverpordmvvm/providers.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class SignUp extends ConsumerStatefulWidget {
   const SignUp({super.key});
 
   @override
-  State<SignUp> createState() => _SignUpState();
+  ConsumerState<SignUp> createState() => _SignUpState();
 }
 
 class _SignUpState extends ConsumerState<SignUp> {
@@ -153,7 +152,9 @@ class _SignUpState extends ConsumerState<SignUp> {
                         ),
                         MyButton(
                           onTap: () {
-                            final controller = ref.read(signupControllerProvider);
+                            final controller = ref.read(
+                              signupControllerProvider,
+                            );
                             final name = _nameController.text.trim();
                             final email = _emailController.text.trim();
                             final phone = _phoneNumberController.text.trim();

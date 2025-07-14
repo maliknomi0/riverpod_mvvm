@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_Controller/language_controller.dart'; // Your LocaleProvider
-import 'package:riverpordmvvm/themes/theme_constants.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/providers.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class LanguageSelectionPage extends ConsumerWidget {
   LanguageSelectionPage({super.key});

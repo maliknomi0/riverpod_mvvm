@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/providers.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class MyDropdown<T> extends StatefulWidget {
   const MyDropdown({
@@ -121,110 +121,113 @@ class _MyDropdownState<T> extends State<MyDropdown<T>>
         final isDarkMode = widget.isDark
             ? true
             : themeMode == ThemeMode.system
-                ? systemIsDark
-                : themeMode == ThemeMode.dark;
+            ? systemIsDark
+            : themeMode == ThemeMode.dark;
 
-    final dropdownDecoration = isDarkMode
-        ? BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.radius ?? 25),
-            gradient: lightAppGradiant,
-          )
-        : BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.radius ?? 25),
-            gradient: darkAppGradiant,
-            border: Border.all(color: blackColor),
-          );
+        final dropdownDecoration = isDarkMode
+            ? BoxDecoration(
+                borderRadius: BorderRadius.circular(widget.radius ?? 25),
+                gradient: lightAppGradiant,
+              )
+            : BoxDecoration(
+                borderRadius: BorderRadius.circular(widget.radius ?? 25),
+                gradient: darkAppGradiant,
+                border: Border.all(color: blackColor),
+              );
 
         return SlideTransition(
-      position: _slideAnimation,
-      child: FadeTransition(
-        opacity: _fadeAnimation,
-        child: Padding(
-          padding: EdgeInsets.only(bottom: widget.marginBottom ?? 10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (widget.label != null && widget.haveLabel == true)
-                ValueListenableBuilder(
-                  valueListenable: _focusNotifier,
-                  builder: (_, isFocused, child) {
-                    return Row(
-                      children: [
-                        MyText(
-                          widget.label?.tr() ?? '',
-                          size: widget.labelSize ?? 14,
-                          paddingBottom: 8,
-                          weight: widget.labelWeight ?? FontWeight.w400,
-                          color: isFocused
-                              ? widget.focusedLabelColor ??
-                                    Theme.of(context).primaryColor
-                              : widget.labelColor ??
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge?.color,
-                        ),
-                        if (widget.isoptional == true)
-                          const MyText(
-                            ' (optional)',
-                            size: 12,
-                            paddingBottom: 8,
-                          ),
-                      ],
-                    );
-                  },
-                ),
-              ValueListenableBuilder(
-                valueListenable: _focusNotifier,
-                builder: (_, isFocused, child) {
-                  return Container(
-                    decoration: dropdownDecoration,
-                    child: DropdownButtonFormField<T>(
-                      value: widget.value,
-                      items: widget.items,
-                      onChanged: widget.onChanged,
-                      focusNode: _focusNode,
-                      validator: widget.validator,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color:
-                            widget.textColor ??
-                            Theme.of(context).textTheme.bodyLarge?.color,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      isExpanded: true,
-                      decoration: InputDecoration(
-                        prefixIcon: widget.prefixIcon,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 12,
-                        ),
-                        hintText: widget.hint?.tr(),
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                          color: isFocused
-                              ? widget.fhintColor ??
-                                    Theme.of(context).hintColor.withOpacity(0.7)
-                              : widget.hintColor ?? Theme.of(context).hintColor,
-                        ),
-                        suffixIcon: widget.suffixIcon != null
-                            ? GestureDetector(
-                                onTap: widget.suffixTap,
-                                child: widget.suffixIcon,
-                              )
-                            : null,
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        border: InputBorder.none,
-                      ),
+          position: _slideAnimation,
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: Padding(
+              padding: EdgeInsets.only(bottom: widget.marginBottom ?? 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (widget.label != null && widget.haveLabel == true)
+                    ValueListenableBuilder(
+                      valueListenable: _focusNotifier,
+                      builder: (_, isFocused, child) {
+                        return Row(
+                          children: [
+                            MyText(
+                              widget.label?.tr() ?? '',
+                              size: widget.labelSize ?? 14,
+                              paddingBottom: 8,
+                              weight: widget.labelWeight ?? FontWeight.w400,
+                              color: isFocused
+                                  ? widget.focusedLabelColor ??
+                                        Theme.of(context).primaryColor
+                                  : widget.labelColor ??
+                                        Theme.of(
+                                          context,
+                                        ).textTheme.bodyLarge?.color,
+                            ),
+                            if (widget.isoptional == true)
+                              const MyText(
+                                ' (optional)',
+                                size: 12,
+                                paddingBottom: 8,
+                              ),
+                          ],
+                        );
+                      },
                     ),
-                  );
-                },
+                  ValueListenableBuilder(
+                    valueListenable: _focusNotifier,
+                    builder: (_, isFocused, child) {
+                      return Container(
+                        decoration: dropdownDecoration,
+                        child: DropdownButtonFormField<T>(
+                          value: widget.value,
+                          items: widget.items,
+                          onChanged: widget.onChanged,
+                          focusNode: _focusNode,
+                          validator: widget.validator,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color:
+                                widget.textColor ??
+                                Theme.of(context).textTheme.bodyLarge?.color,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                            prefixIcon: widget.prefixIcon,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 12,
+                            ),
+                            hintText: widget.hint?.tr(),
+                            hintStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                              color: isFocused
+                                  ? widget.fhintColor ??
+                                        Theme.of(
+                                          context,
+                                        ).hintColor.withOpacity(0.7)
+                                  : widget.hintColor ??
+                                        Theme.of(context).hintColor,
+                            ),
+                            suffixIcon: widget.suffixIcon != null
+                                ? GestureDetector(
+                                    onTap: widget.suffixTap,
+                                    child: widget.suffixIcon,
+                                  )
+                                : null,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
         );
       },
     );

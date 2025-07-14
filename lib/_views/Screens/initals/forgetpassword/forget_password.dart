@@ -1,23 +1,22 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:riverpordmvvm/Configs/Assets.dart';
 import 'package:riverpordmvvm/Utils/Mysnackbar.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
-import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
-import 'package:riverpordmvvm/_Controller/language_controller.dart';
 import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
 import 'package:riverpordmvvm/_views/widgets/common_image.dart';
 import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
+import 'package:riverpordmvvm/providers.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class ForgetPassword extends ConsumerStatefulWidget {
   const ForgetPassword({super.key});
 
   @override
-  State<ForgetPassword> createState() => _ForgetPasswordState();
+  ConsumerState<ForgetPassword> createState() => _ForgetPasswordState();
 }
 
 class _ForgetPasswordState extends ConsumerState<ForgetPassword> {
@@ -83,8 +82,9 @@ class _ForgetPasswordState extends ConsumerState<ForgetPassword> {
                           hasGradient: true,
                           onTap: () {
                             final email = emailController.text.trim();
-                            final controller =
-                                ref.read(passwordResetControllerProvider);
+                            final controller = ref.read(
+                              passwordResetControllerProvider,
+                            );
 
                             if (email.isEmpty) {
                               Mysnackbar.showWarning(
