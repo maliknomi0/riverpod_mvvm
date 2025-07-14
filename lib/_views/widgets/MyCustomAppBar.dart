@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:riverpordmvvm/Configs/Assets.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
 import 'package:riverpordmvvm/_views/widgets/common_image.dart';
-import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class MyCustomAppBar extends StatelessWidget {
   const MyCustomAppBar({super.key});
@@ -23,8 +22,7 @@ class MyCustomAppBar extends StatelessWidget {
           Row(
             children: [
               GestureDetector(
-                onTap: () {
-                },
+                onTap: () {},
                 child: CommonImageView(
                   imagePath: AppIamges.iconsfav,
                   color: iconColor,

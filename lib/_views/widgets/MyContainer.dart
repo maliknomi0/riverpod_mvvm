@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
+import 'package:riverpordmvvm/providers.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class MyContainer extends StatefulWidget {
@@ -101,90 +101,90 @@ class _MyContainerState extends State<MyContainer> {
             ? systemIsDark
             : themeMode == ThemeMode.dark;
 
-    // Default shadow if customShadow isn't provided
-    final defaultShadow = BoxShadow(
-      color: Colors.grey.withOpacity(0.3),
-      spreadRadius: 2,
-      blurRadius: 5,
-      offset: const Offset(0, 3),
-    );
-
-    // Determine decoration based on mode
-    Decoration getDecoration() {
-      if (widget.hasGradient) {
-        // Apply gradient in both dark and light modes if hasGradient is true
-        return BoxDecoration(
-          gradient: widget.customGradient ?? lightAppGradiant,
-          borderRadius: BorderRadius.circular(widget.radius),
-          boxShadow: widget.hasShadow
-              ? [widget.customShadow ?? defaultShadow]
-              : null,
+        // Default shadow if customShadow isn't provided
+        final defaultShadow = BoxShadow(
+          color: Colors.grey.withOpacity(0.3),
+          spreadRadius: 2,
+          blurRadius: 5,
+          offset: const Offset(0, 3),
         );
-      } else if (isDarkMode) {
-        // Dark mode without gradient
-        return BoxDecoration(
-          color: widget.backgroundColor ?? greyColor,
-          borderRadius: BorderRadius.circular(widget.radius),
-          boxShadow: widget.hasShadow
-              ? [widget.customShadow ?? defaultShadow]
-              : null,
+
+        // Determine decoration based on mode
+        Decoration getDecoration() {
+          if (widget.hasGradient) {
+            // Apply gradient in both dark and light modes if hasGradient is true
+            return BoxDecoration(
+              gradient: widget.customGradient ?? lightAppGradiant,
+              borderRadius: BorderRadius.circular(widget.radius),
+              boxShadow: widget.hasShadow
+                  ? [widget.customShadow ?? defaultShadow]
+                  : null,
+            );
+          } else if (isDarkMode) {
+            // Dark mode without gradient
+            return BoxDecoration(
+              color: widget.backgroundColor ?? greyColor,
+              borderRadius: BorderRadius.circular(widget.radius),
+              boxShadow: widget.hasShadow
+                  ? [widget.customShadow ?? defaultShadow]
+                  : null,
+            );
+          } else {
+            // Light mode without gradient
+            return BoxDecoration(
+              color: widget.backgroundColor ?? whiteColor,
+              border: widget.hasBorder
+                  ? Border.all(
+                      color: widget.outlineColor,
+                      width: widget.borderWidth,
+                      style: widget.borderStyle,
+                    )
+                  : null,
+              borderRadius: BorderRadius.circular(widget.radius),
+              boxShadow: widget.hasShadow
+                  ? [widget.customShadow ?? defaultShadow]
+                  : null,
+            );
+          }
+        }
+
+        Widget container = Container(
+          margin: EdgeInsets.only(
+            top: widget.marginTop,
+            bottom: widget.marginBottom,
+            left: widget.marginLeft,
+            right: widget.marginRight,
+          ),
+          padding: EdgeInsets.only(
+            top: widget.paddingTop,
+            bottom: widget.paddingBottom,
+            left: widget.paddingLeft,
+            right: widget.paddingRight,
+          ),
+          height: widget.height,
+          width: widget.width,
+          alignment: widget.alignment,
+          decoration: getDecoration(),
+          child: Material(color: Colors.transparent, child: widget.child),
         );
-      } else {
-        // Light mode without gradient
-        return BoxDecoration(
-          color: widget.backgroundColor ?? whiteColor,
-          border: widget.hasBorder
-              ? Border.all(
-                  color: widget.outlineColor,
-                  width: widget.borderWidth,
-                  style: widget.borderStyle,
-                )
-              : null,
-          borderRadius: BorderRadius.circular(widget.radius),
-          boxShadow: widget.hasShadow
-              ? [widget.customShadow ?? defaultShadow]
-              : null,
-        );
-      }
-    }
 
-    Widget container = Container(
-      margin: EdgeInsets.only(
-        top: widget.marginTop,
-        bottom: widget.marginBottom,
-        left: widget.marginLeft,
-        right: widget.marginRight,
-      ),
-      padding: EdgeInsets.only(
-        top: widget.paddingTop,
-        bottom: widget.paddingBottom,
-        left: widget.paddingLeft,
-        right: widget.paddingRight,
-      ),
-      height: widget.height,
-      width: widget.width,
-      alignment: widget.alignment,
-      decoration: getDecoration(),
-      child: Material(color: Colors.transparent, child: widget.child),
-    );
+        // Apply opacity animation if enabled
+        container = widget.hasOpacityAnimation
+            ? AnimatedOpacity(
+                duration: widget.opacityDuration!,
+                opacity: opacity,
+                child: container,
+              )
+            : container;
 
-    // Apply opacity animation if enabled
-    container = widget.hasOpacityAnimation
-        ? AnimatedOpacity(
-            duration: widget.opacityDuration!,
-            opacity: opacity,
-            child: container,
-          )
-        : container;
-
-    // Apply bounce effect if enabled and onTap is provided
-    return widget.onTap != null && widget.hasBounce
-        ? Bounce(
-            duration: widget.bounceDuration!,
-            onPressed: widget.onTap!,
-            child: container,
-          )
-        : container;
+        // Apply bounce effect if enabled and onTap is provided
+        return widget.onTap != null && widget.hasBounce
+            ? Bounce(
+                duration: widget.bounceDuration!,
+                onPressed: widget.onTap!,
+                child: container,
+              )
+            : container;
       },
     );
   }

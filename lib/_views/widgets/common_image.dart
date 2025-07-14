@@ -1,8 +1,8 @@
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:riverpordmvvm/_views/widgets/common_shimmer_widgets.dart';
 
 class CommonImageView extends StatefulWidget {
   final String? url;
@@ -12,12 +12,11 @@ class CommonImageView extends StatefulWidget {
   final double? height;
   final double? width;
   final double? radius;
-  final double? circleRadius;
   final BoxFit fit;
   final String placeHolder;
   final Color? color;
-  final IconData? icon;
-
+  final String? liteplaceholder;
+  final String? darkplaceholder;
   const CommonImageView({
     super.key,
     this.url,
@@ -27,11 +26,11 @@ class CommonImageView extends StatefulWidget {
     this.height,
     this.width,
     this.radius = 0.0,
-    this.circleRadius,
     this.fit = BoxFit.cover,
-    this.placeHolder = 'assets/images/riverpordmvvm_logo.png',
+    this.placeHolder = 'assets/images/one_logo.png',
     this.color,
-    this.icon,
+    this.liteplaceholder,
+    this.darkplaceholder,
   });
 
   @override
@@ -63,7 +62,7 @@ class _CommonImageViewState extends State<CommonImageView> {
   }
 
   Widget _buildImageView() {
-    if (widget.svgPath != null && widget.svgPath!.isNotEmpty) {
+    if (widget.svgPath?.isNotEmpty == true) {
       return _buildRoundedContainer(
         SvgPicture.asset(
           widget.svgPath!,
@@ -73,7 +72,7 @@ class _CommonImageViewState extends State<CommonImageView> {
           color: widget.color,
         ),
       );
-    } else if (widget.file != null && widget.file!.path.isNotEmpty) {
+    } else if (widget.file?.path.isNotEmpty == true) {
       return _buildRoundedContainer(
         Image.file(
           widget.file!,
@@ -83,7 +82,7 @@ class _CommonImageViewState extends State<CommonImageView> {
           color: widget.color,
         ),
       );
-    } else if (widget.url != null && widget.url!.isNotEmpty) {
+    } else if (widget.url?.isNotEmpty == true) {
       return _buildRoundedContainer(
         CachedNetworkImage(
           height: widget.height,
@@ -91,16 +90,29 @@ class _CommonImageViewState extends State<CommonImageView> {
           fit: widget.fit,
           imageUrl: widget.url!,
           color: widget.color,
-          placeholder: (context, url) => _buildShimmerPlaceholder(),
-          errorWidget: (context, url, error) => Image.asset(
-            widget.placeHolder,
-            height: widget.height,
-            width: widget.width,
-            fit: widget.fit,
+          placeholder: (context, url) => const SizedBox(
+            height: 23,
+            width: 23,
+            child: Center(
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
           ),
+          errorWidget: (context, url, error) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
+            final placeholderAsset = isDark
+                ? (widget.darkplaceholder ?? widget.placeHolder)
+                : (widget.liteplaceholder ?? widget.placeHolder);
+            return Image.asset(
+              placeholderAsset,
+              height: widget.height,
+              width: widget.width,
+              fit: widget.fit,
+              color: widget.color,
+            );
+          },
         ),
       );
-    } else if (widget.imagePath != null && widget.imagePath!.isNotEmpty) {
+    } else if (widget.imagePath?.isNotEmpty == true) {
       return _buildRoundedContainer(
         Image.asset(
           widget.imagePath!,
@@ -115,22 +127,9 @@ class _CommonImageViewState extends State<CommonImageView> {
   }
 
   Widget _buildRoundedContainer(Widget child) {
-    double effectiveRadius = widget.circleRadius ?? widget.radius!;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(effectiveRadius),
+      borderRadius: BorderRadius.circular(widget.radius ?? 0),
       child: child,
     );
-  }
-
-  Widget _buildShimmerPlaceholder() {
-    if (widget.circleRadius != null) {
-      return CommonShimmerWidgets.shimmerCircle(size: widget.width ?? 44);
-    } else {
-      return CommonShimmerWidgets.shimmerBox(
-        width: widget.width ?? 44,
-        height: widget.height ?? 44,
-        radius: widget.radius ?? 8,
-      );
-    }
   }
 }

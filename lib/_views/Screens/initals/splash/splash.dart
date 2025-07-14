@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:one/Controller/SplashController.dart';
-import 'package:one/_Configs/Assets.dart';
-import 'package:one/themes/theme_constants.dart';
-import 'package:one/widgets/common_image.dart';
+
+import 'package:riverpordmvvm/_Controller/SplashController.dart';
+import 'package:riverpordmvvm/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
+
+import '../../../../Configs/Assets.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -65,10 +66,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
               position: _controller.headingAnimation,
                 child: Text(
                   'WELCOME TO ONE LIFESTYLE',
-                  style: GoogleFonts.anton(
-                    fontSize: 28,
-                    letterSpacing: 1.2,
-                  ),
+
                 ),
               ),
               const SizedBox(height: 10),
@@ -76,10 +74,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
               position: _controller.descriptionAnimation,
                 child: Text(
                   'One step closer to a better you',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                  ),
+           
                 ),
               ),
           ],

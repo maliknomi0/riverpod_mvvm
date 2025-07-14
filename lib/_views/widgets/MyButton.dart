@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_Controller/theme_Controller.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/providers.dart';
+import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 import 'common_image.dart';
 

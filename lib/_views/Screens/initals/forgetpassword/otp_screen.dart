@@ -2,10 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
-import 'package:riverpordmvvm/_Controller/ForgetPasswordController.dart';
 import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
 import 'package:riverpordmvvm/_views/widgets/MyText.dart';
 import 'package:riverpordmvvm/_views/widgets/my_otp_text_field.dart';
+import 'package:riverpordmvvm/providers.dart';
 import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class OTPVerificationScreen extends ConsumerStatefulWidget {
@@ -134,9 +134,10 @@ class _OTPVerificationScreenState extends ConsumerState<OTPVerificationScreen> {
                       const SizedBox(height: 30),
                       MyButton(
                         hasGradient: true,
-                      onTap: () {
-                          final controller =
-                              ref.read(passwordResetControllerProvider);
+                        onTap: () {
+                          final controller = ref.read(
+                            passwordResetControllerProvider,
+                          );
                           String otp = otpControllers.map((e) => e.text).join();
                           controller.verifyOtp(widget.email, otp, context);
                         },
