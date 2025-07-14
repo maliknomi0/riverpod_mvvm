@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.vendaxis.riverpordmvvm"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -38,7 +38,9 @@ android {
         }
     }
 }
-
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+}
 flutter {
     source = "../.."
 }
