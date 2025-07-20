@@ -8,14 +8,14 @@ import 'package:riverpordmvvm/Utils/Mysnackbar.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
 import 'package:riverpordmvvm/_views/Screens/initals/Signup/SignUp.dart';
 import 'package:riverpordmvvm/_views/Screens/initals/forgetpassword/forget_password.dart';
-import 'package:riverpordmvvm/_views/widgets/LanguageCustomAppBar.dart';
-import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
-import 'package:riverpordmvvm/_views/widgets/MyText.dart';
-import 'package:riverpordmvvm/_views/widgets/common_image.dart';
-import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
-import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
+import 'package:riverpordmvvm/widgets/LanguageCustomAppBar.dart';
+import 'package:riverpordmvvm/widgets/MyButton.dart';
+import 'package:riverpordmvvm/widgets/MyText.dart';
+import 'package:riverpordmvvm/widgets/common_image.dart';
+import 'package:riverpordmvvm/widgets/my_custom_navigator.dart';
+import 'package:riverpordmvvm/widgets/my_text_field.dart';
 import 'package:riverpordmvvm/providers.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({super.key});

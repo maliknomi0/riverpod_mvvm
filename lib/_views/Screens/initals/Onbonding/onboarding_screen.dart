@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:riverpordmvvm/_services/StorageService.dart';
-import 'package:riverpordmvvm/_views/widgets/MyContainer.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/widgets/MyContainer.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 class OnBoarding extends StatefulWidget {
   const OnBoarding({super.key});

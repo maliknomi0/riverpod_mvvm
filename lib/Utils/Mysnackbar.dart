@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 import 'package:toastification/toastification.dart';
 
 class Mysnackbar {

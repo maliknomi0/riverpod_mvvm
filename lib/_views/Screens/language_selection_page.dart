@@ -1,23 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_views/widgets/MyText.dart';
-import 'package:riverpordmvvm/providers.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
+import 'package:riverpordmvvm/widgets/MyText.dart';
+import '../../providers/localization_provider.dart';
 
 class LanguageSelectionPage extends ConsumerWidget {
-  LanguageSelectionPage({super.key});
+  LanguageSelectionPage({Key? key}) : super(key: key);
 
   final List<Map<String, dynamic>> languages = [
-    {'locale': Locale('en'), 'label': 'English'},
-    {'locale': Locale('ur'), 'label': 'اردو'},
-    {'locale': Locale('ar'), 'label': 'العربية'},
+    {'locale': Locale('en', 'US'), 'label': 'English'},
+    {'locale': Locale('ur', 'PK'), 'label': 'اردو'},
+    {'locale': Locale('ar', 'SA'), 'label': 'العربية'},
   ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final localeProv = ref.watch(localeProvider);
-    final currentLocale = localeProv.locale;
+    final currentLocale = ref.watch(localeProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text('choose_language').tr()),
@@ -25,8 +24,9 @@ class LanguageSelectionPage extends ConsumerWidget {
         itemCount: languages.length,
         itemBuilder: (context, index) {
           final lang = languages[index];
+          final Locale locale = lang['locale'] as Locale;
           final selected =
-              currentLocale.languageCode == lang['locale'].languageCode;
+              currentLocale.languageCode == locale.languageCode;
 
           return AnimatedContainer(
             duration: Duration(milliseconds: 300),
@@ -45,9 +45,10 @@ class LanguageSelectionPage extends ConsumerWidget {
                   ? Icon(Icons.check_circle, color: greyColor)
                   : null,
               onTap: () async {
-                final selectedLocale = lang['locale'] as Locale;
-                await localeProv.setLocale(selectedLocale);
-                await context.setLocale(selectedLocale);
+                // Riverpod
+                ref.read(localeProvider.notifier).changeLocale(locale);
+                // easy_localization
+                await context.setLocale(locale);
                 Navigator.pop(context);
               },
             ),

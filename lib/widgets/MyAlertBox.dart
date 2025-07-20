@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 class MyAlertBox extends StatelessWidget {
   final String title;
@@ -26,7 +26,7 @@ class MyAlertBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(title, style: AppAuthHeading),
+      title: Text(title,),
       content: Text(content),
       actions: [
         TextButton(

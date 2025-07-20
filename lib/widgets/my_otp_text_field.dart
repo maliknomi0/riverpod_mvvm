@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/widgets/MyText.dart';
 import 'package:riverpordmvvm/providers.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+// import 'package:riverpordmvvm/core/themes/theme_constants.dart'; // Gradient ab use nahi ho raha
 
-class MyTextField extends StatefulWidget {
-  const MyTextField({
+class MyotpTextField extends StatefulWidget {
+  const MyotpTextField({
     super.key,
     this.controller,
     this.hint,
@@ -34,19 +34,21 @@ class MyTextField extends StatefulWidget {
     this.labelColor,
     this.labelWeight,
     this.validator,
-    this.readOnly,
     this.textColor,
     this.isoptional = false,
     this.fbordercolor,
     this.focusedLabelColor,
     this.useCountryCodePicker = false,
     this.useOutlinedBorder = true,
-    this.onTap, // Add this if missing
+    this.focusNode, // 👈 added
+    this.maxLength, // 👈 added
   });
 
   final String? label, hint, suffixtext;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
+  final FocusNode? focusNode; // 👈 added
+  final int? maxLength; // 👈 added
   final bool? isObSecure,
       isoptional,
       haveLabel,
@@ -73,16 +75,14 @@ class MyTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final VoidCallback? suffixTap;
   final String? Function(String?)? validator;
-  final bool? readOnly;
 
-  final VoidCallback? onTap; // Add this if missing
   @override
-  _MyTextFieldState createState() => _MyTextFieldState();
+  _MyotpTextFieldState createState() => _MyotpTextFieldState();
 }
 
-class _MyTextFieldState extends State<MyTextField>
+class _MyotpTextFieldState extends State<MyotpTextField>
     with SingleTickerProviderStateMixin {
-  late FocusNode _focusNode;
+  late FocusNode _defaultFocusNode;
   final ValueNotifier<bool> _focusNotifier = ValueNotifier<bool>(false);
 
   late AnimationController _controller;
@@ -92,8 +92,8 @@ class _MyTextFieldState extends State<MyTextField>
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode();
-    _focusNode.addListener(_onFocusChange);
+    _defaultFocusNode = FocusNode();
+    (widget.focusNode ?? _defaultFocusNode).addListener(_onFocusChange);
 
     _controller = AnimationController(
       vsync: this,
@@ -114,13 +114,13 @@ class _MyTextFieldState extends State<MyTextField>
   }
 
   void _onFocusChange() {
-    _focusNotifier.value = _focusNode.hasFocus;
+    _focusNotifier.value = (widget.focusNode ?? _defaultFocusNode).hasFocus;
   }
 
   @override
   void dispose() {
-    _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
+    (widget.focusNode ?? _defaultFocusNode).removeListener(_onFocusChange);
+    _defaultFocusNode.dispose();
     _focusNotifier.dispose();
     _controller.dispose();
     super.dispose();
@@ -136,6 +136,17 @@ class _MyTextFieldState extends State<MyTextField>
         final isDarkMode = themeMode == ThemeMode.system
             ? systemIsDark
             : themeMode == ThemeMode.dark;
+
+        // Remove gradient, use only color
+        final boxDecoration = BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.radius ?? 25),
+          color: widget.filledColor ??
+              (isDarkMode ? Colors.grey[900] : Colors.white),
+          border: Border.all(
+            color: widget.bordercolor ??
+                (isDarkMode ? Colors.white30 : Colors.black12),
+          ),
+        );
 
         return SlideTransition(
           position: _slideAnimation,
@@ -175,26 +186,15 @@ class _MyTextFieldState extends State<MyTextField>
                     valueListenable: _focusNotifier,
                     builder: (_, isFocused, child) {
                       return Container(
-                        decoration: isDarkMode
-                            ? BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                gradient: lightAppGradiant,
-                              )
-                            : BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                gradient: darkAppGradiant,
-                                border: Border.all(color: blackColor),
-                              ), // ❌ No gradient for light mode
+                        decoration: boxDecoration,
                         child: TextFormField(
-                          readOnly: widget.readOnly ?? false,
-                          onTap: widget
-                              .onTap, // Pass the onTap callback to TextFormField
                           keyboardType: widget.keyboardType,
                           maxLines: widget.maxLines ?? 1,
+                          maxLength: widget.maxLength, // 👈 here
                           controller: widget.controller,
                           onChanged: widget.onChanged,
                           textInputAction: TextInputAction.next,
-                          obscureText: widget.isObSecure!,
+                          obscureText: widget.isObSecure ?? false,
                           obscuringCharacter: '*',
                           style: TextStyle(
                             fontSize: 14,
@@ -204,9 +204,10 @@ class _MyTextFieldState extends State<MyTextField>
                           validator: widget.validator,
                           textAlign: widget.isright == true
                               ? TextAlign.right
-                              : TextAlign.left,
-                          focusNode: _focusNode,
+                              : TextAlign.center,
+                          focusNode: widget.focusNode ?? _defaultFocusNode,
                           decoration: InputDecoration(
+                            counterText: '', // 👈 hide counter below input
                             prefixIcon: widget.prefixIcon,
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             contentPadding: const EdgeInsets.symmetric(
@@ -237,14 +238,13 @@ class _MyTextFieldState extends State<MyTextField>
                             filled: true,
                             fillColor: isFocused
                                 ? widget.focusedFilledColor ??
-                                      TransparentColor.withOpacity(0.03)
-                                : widget.filledColor ?? TransparentColor,
+                                    Colors.grey.withOpacity(0.03)
+                                : widget.filledColor ?? Colors.transparent,
                             enabledBorder: widget.useOutlinedBorder == true
                                 ? OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          widget.bordercolor ??
-                                          TransparentColor,
+                                      color: widget.bordercolor ??
+                                          Colors.transparent,
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(
@@ -253,18 +253,16 @@ class _MyTextFieldState extends State<MyTextField>
                                   )
                                 : UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          widget.bordercolor ??
-                                          lightPrimaryColor,
+                                      color: widget.bordercolor ??
+                                          Colors.blue,
                                       width: 1,
                                     ),
                                   ),
                             focusedBorder: widget.useOutlinedBorder == true
                                 ? OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          widget.fbordercolor ??
-                                          TransparentColor,
+                                      color: widget.fbordercolor ??
+                                          Colors.transparent,
                                       width: 1.5,
                                     ),
                                     borderRadius: BorderRadius.circular(
@@ -273,9 +271,8 @@ class _MyTextFieldState extends State<MyTextField>
                                   )
                                 : UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          widget.bordercolor ??
-                                          lightPrimaryColor.withOpacity(0.3),
+                                      color: widget.bordercolor ??
+                                          Colors.blue.withOpacity(0.3),
                                       width: 1.5,
                                     ),
                                   ),

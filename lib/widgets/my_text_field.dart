@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/_views/widgets/MyText.dart';
+import 'package:riverpordmvvm/widgets/MyText.dart';
 import 'package:riverpordmvvm/providers.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+// import 'package:riverpordmvvm/core/themes/theme_constants.dart'; // Not needed if not using gradients
 
-class MyotpTextField extends StatefulWidget {
-  const MyotpTextField({
+class MyTextField extends StatefulWidget {
+  const MyTextField({
     super.key,
     this.controller,
     this.hint,
@@ -34,21 +34,19 @@ class MyotpTextField extends StatefulWidget {
     this.labelColor,
     this.labelWeight,
     this.validator,
+    this.readOnly,
     this.textColor,
     this.isoptional = false,
     this.fbordercolor,
     this.focusedLabelColor,
     this.useCountryCodePicker = false,
     this.useOutlinedBorder = true,
-    this.focusNode, // 👈 added
-    this.maxLength, // 👈 added
+    this.onTap,
   });
 
   final String? label, hint, suffixtext;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
-  final FocusNode? focusNode; // 👈 added
-  final int? maxLength; // 👈 added
   final bool? isObSecure,
       isoptional,
       haveLabel,
@@ -75,14 +73,16 @@ class MyotpTextField extends StatefulWidget {
   final TextInputType? keyboardType;
   final VoidCallback? suffixTap;
   final String? Function(String?)? validator;
+  final bool? readOnly;
 
+  final VoidCallback? onTap;
   @override
-  _MyotpTextFieldState createState() => _MyotpTextFieldState();
+  _MyTextFieldState createState() => _MyTextFieldState();
 }
 
-class _MyotpTextFieldState extends State<MyotpTextField>
+class _MyTextFieldState extends State<MyTextField>
     with SingleTickerProviderStateMixin {
-  late FocusNode _defaultFocusNode;
+  late FocusNode _focusNode;
   final ValueNotifier<bool> _focusNotifier = ValueNotifier<bool>(false);
 
   late AnimationController _controller;
@@ -92,8 +92,8 @@ class _MyotpTextFieldState extends State<MyotpTextField>
   @override
   void initState() {
     super.initState();
-    _defaultFocusNode = FocusNode();
-    (widget.focusNode ?? _defaultFocusNode).addListener(_onFocusChange);
+    _focusNode = FocusNode();
+    _focusNode.addListener(_onFocusChange);
 
     _controller = AnimationController(
       vsync: this,
@@ -114,19 +114,18 @@ class _MyotpTextFieldState extends State<MyotpTextField>
   }
 
   void _onFocusChange() {
-    _focusNotifier.value = (widget.focusNode ?? _defaultFocusNode).hasFocus;
+    _focusNotifier.value = _focusNode.hasFocus;
   }
 
   @override
   void dispose() {
-    (widget.focusNode ?? _defaultFocusNode).removeListener(_onFocusChange);
-    _defaultFocusNode.dispose();
+    _focusNode.removeListener(_onFocusChange);
+    _focusNode.dispose();
     _focusNotifier.dispose();
     _controller.dispose();
     super.dispose();
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -137,6 +136,18 @@ class _MyotpTextFieldState extends State<MyotpTextField>
         final isDarkMode = themeMode == ThemeMode.system
             ? systemIsDark
             : themeMode == ThemeMode.dark;
+
+        // ----------- Grading removed, use plain color -------------
+        final boxDecoration = BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.radius ?? 25),
+          color: widget.filledColor ??
+              (isDarkMode ? Colors.grey[900] : Colors.white),
+          border: Border.all(
+            color: widget.bordercolor ??
+                (isDarkMode ? Colors.white30 : Colors.black12),
+          ),
+        );
+        // ----------------------------------------------------------
 
         return SlideTransition(
           position: _slideAnimation,
@@ -176,24 +187,16 @@ class _MyotpTextFieldState extends State<MyotpTextField>
                     valueListenable: _focusNotifier,
                     builder: (_, isFocused, child) {
                       return Container(
-                        decoration: isDarkMode
-                            ? BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                gradient: lightAppGradiant,
-                              )
-                            : BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                gradient: darkAppGradiant,
-                                border: Border.all(color: blackColor),
-                              ),
+                        decoration: boxDecoration,
                         child: TextFormField(
+                          readOnly: widget.readOnly ?? false,
+                          onTap: widget.onTap,
                           keyboardType: widget.keyboardType,
                           maxLines: widget.maxLines ?? 1,
-                          maxLength: widget.maxLength, // 👈 here
                           controller: widget.controller,
                           onChanged: widget.onChanged,
                           textInputAction: TextInputAction.next,
-                          obscureText: widget.isObSecure!,
+                          obscureText: widget.isObSecure ?? false,
                           obscuringCharacter: '*',
                           style: TextStyle(
                             fontSize: 14,
@@ -203,10 +206,9 @@ class _MyotpTextFieldState extends State<MyotpTextField>
                           validator: widget.validator,
                           textAlign: widget.isright == true
                               ? TextAlign.right
-                              : TextAlign.center,
-                          focusNode: widget.focusNode ?? _defaultFocusNode,
+                              : TextAlign.left,
+                          focusNode: _focusNode,
                           decoration: InputDecoration(
-                            counterText: '', // 👈 hide counter below input
                             prefixIcon: widget.prefixIcon,
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             contentPadding: const EdgeInsets.symmetric(
@@ -237,14 +239,13 @@ class _MyotpTextFieldState extends State<MyotpTextField>
                             filled: true,
                             fillColor: isFocused
                                 ? widget.focusedFilledColor ??
-                                      TransparentColor.withOpacity(0.03)
-                                : widget.filledColor ?? TransparentColor,
+                                    Colors.grey.withOpacity(0.03)
+                                : widget.filledColor ?? Colors.transparent,
                             enabledBorder: widget.useOutlinedBorder == true
                                 ? OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          widget.bordercolor ??
-                                          TransparentColor,
+                                      color: widget.bordercolor ??
+                                          Colors.transparent,
                                       width: 1,
                                     ),
                                     borderRadius: BorderRadius.circular(
@@ -253,18 +254,16 @@ class _MyotpTextFieldState extends State<MyotpTextField>
                                   )
                                 : UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          widget.bordercolor ??
-                                          lightPrimaryColor,
+                                      color: widget.bordercolor ??
+                                          Colors.blue,
                                       width: 1,
                                     ),
                                   ),
                             focusedBorder: widget.useOutlinedBorder == true
                                 ? OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          widget.fbordercolor ??
-                                          TransparentColor,
+                                      color: widget.fbordercolor ??
+                                          Colors.transparent,
                                       width: 1.5,
                                     ),
                                     borderRadius: BorderRadius.circular(
@@ -273,9 +272,8 @@ class _MyotpTextFieldState extends State<MyotpTextField>
                                   )
                                 : UnderlineInputBorder(
                                     borderSide: BorderSide(
-                                      color:
-                                          widget.bordercolor ??
-                                          lightPrimaryColor.withOpacity(0.3),
+                                      color: widget.bordercolor ??
+                                          Colors.blue.withOpacity(0.3),
                                       width: 1.5,
                                     ),
                                   ),
