@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:riverpordmvvm/_Controller/SplashController.dart';
-import 'package:riverpordmvvm/_views/widgets/common_image.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/widgets/common_image.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 import '../../../../Configs/Assets.dart';
 

@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
-import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
-import 'package:riverpordmvvm/_views/widgets/MyText.dart';
-import 'package:riverpordmvvm/_views/widgets/my_otp_text_field.dart';
+import 'package:riverpordmvvm/widgets/MyButton.dart';
+import 'package:riverpordmvvm/widgets/MyText.dart';
+import 'package:riverpordmvvm/widgets/my_otp_text_field.dart';
 import 'package:riverpordmvvm/providers.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 class OTPVerificationScreen extends ConsumerStatefulWidget {
   final String email;

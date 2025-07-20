@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 // ignore: must_be_immutable
 class CustomCheckBox extends StatelessWidget {

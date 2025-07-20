@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
-import 'package:riverpordmvvm/_views/widgets/MyText.dart';
-import 'package:riverpordmvvm/_views/widgets/common_image.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
+import 'package:riverpordmvvm/widgets/MyText.dart';
+import 'package:riverpordmvvm/widgets/common_image.dart';
 
 class NotFoundWidget extends StatelessWidget {
   final String title; // Required title

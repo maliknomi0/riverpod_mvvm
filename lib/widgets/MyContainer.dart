@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounce/flutter_bounce.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 import 'package:riverpordmvvm/providers.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
 
 class MyContainer extends StatefulWidget {
   // Core properties
@@ -15,7 +15,7 @@ class MyContainer extends StatefulWidget {
   final Color outlineColor;
   final Color? backgroundColor;
   final bool hasGradient;
-  final Gradient? customGradient;
+  final Color? customGradient;
   final bool hasShadow;
   final BoxShadow? customShadow;
   final bool hasBorder; // New parameter to enable border in light mode
@@ -114,7 +114,7 @@ class _MyContainerState extends State<MyContainer> {
           if (widget.hasGradient) {
             // Apply gradient in both dark and light modes if hasGradient is true
             return BoxDecoration(
-              gradient: widget.customGradient ?? lightAppGradiant,
+              color: widget.customGradient ?? primaryColor,
               borderRadius: BorderRadius.circular(widget.radius),
               boxShadow: widget.hasShadow
                   ? [widget.customShadow ?? defaultShadow]

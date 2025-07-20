@@ -1,5 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 /// Handles all local notification functionality.
 class LocalNotificationService {

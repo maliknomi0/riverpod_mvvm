@@ -7,7 +7,7 @@ import 'package:riverpordmvvm/_services/app_services.dart';
 import 'package:riverpordmvvm/_views/Screens/initals/forgetpassword/otp_screen.dart';
 import 'package:riverpordmvvm/_views/Screens/initals/forgetpassword/set_password.dart';
 import 'package:riverpordmvvm/_views/Screens/initals/login/login.dart';
-import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
+import 'package:riverpordmvvm/widgets/my_custom_navigator.dart';
 
 class PasswordResetController extends ChangeNotifier {
   final AppService _appService = AppService();

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/_views/Screens/language_selection_page.dart';
 import 'package:riverpordmvvm/providers.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 class LanguageBar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {

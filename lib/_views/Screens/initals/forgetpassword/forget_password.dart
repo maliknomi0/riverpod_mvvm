@@ -5,12 +5,12 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:riverpordmvvm/Configs/Assets.dart';
 import 'package:riverpordmvvm/Utils/Mysnackbar.dart';
 import 'package:riverpordmvvm/Utils/screen.dart';
-import 'package:riverpordmvvm/_views/widgets/MyButton.dart';
-import 'package:riverpordmvvm/_views/widgets/MyText.dart';
-import 'package:riverpordmvvm/_views/widgets/common_image.dart';
-import 'package:riverpordmvvm/_views/widgets/my_text_field.dart';
+import 'package:riverpordmvvm/widgets/MyButton.dart';
+import 'package:riverpordmvvm/widgets/MyText.dart';
+import 'package:riverpordmvvm/widgets/common_image.dart';
+import 'package:riverpordmvvm/widgets/my_text_field.dart';
 import 'package:riverpordmvvm/providers.dart';
-import 'package:riverpordmvvm/themes/theme_constants.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 class ForgetPassword extends ConsumerStatefulWidget {
   const ForgetPassword({super.key});

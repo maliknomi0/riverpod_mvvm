@@ -3,7 +3,7 @@ import 'package:riverpordmvvm/_Models/user_model.dart';
 import 'package:riverpordmvvm/_services/StorageService.dart';
 import 'package:riverpordmvvm/_views/Screens/initals/Onbonding/onboarding_screen.dart';
 import 'package:riverpordmvvm/_views/Screens/initals/login/login.dart';
-import 'package:riverpordmvvm/_views/widgets/my_custom_navigator.dart';
+import 'package:riverpordmvvm/widgets/my_custom_navigator.dart';
 import 'package:riverpordmvvm/global/globle.dart';
 
 class SplashController extends ChangeNotifier {
