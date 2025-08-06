@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:riverpordmvvm/core/config/theme_config.dart';
 import 'package:riverpordmvvm/routes/app_router.dart';
 
@@ -25,18 +26,22 @@ void main() async {
   final String? savedTheme = HiveStorageHelper.getTheme();
 
   runApp(
-    EasyLocalization(
+        EasyLocalization(
       supportedLocales: LocalizationConfig.supportedLocales,
       path: LocalizationConfig.path,
       fallbackLocale: LocalizationConfig.fallbackLocale,
       startLocale: startLocale,
-      child: ProviderScope(
-        overrides: [
-          themeProvider.overrideWith(
-            (ref) => ThemeNotifier(savedTheme: savedTheme),
-          ),
-        ],
-        child: const MyApp(),
+      child: ScreenUtilInit(
+        designSize: Size(375, 812), // <-- yahan apni design size likho
+        minTextAdapt: true,
+        builder: (context, child) => ProviderScope(
+          overrides: [
+            themeProvider.overrideWith(
+              (ref) => ThemeNotifier(savedTheme: savedTheme),
+            ),
+          ],
+          child: const MyApp(),
+        ),
       ),
     ),
   );

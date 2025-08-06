@@ -1,28 +1,20 @@
 import 'package:go_router/go_router.dart';
-import 'package:riverpordmvvm/_views/Screens/initals/login/login.dart';
 import 'package:riverpordmvvm/main.dart';
+import 'package:riverpordmvvm/views/login/login_screen.dart';
+import 'package:riverpordmvvm/views/onboarding/onboarding_screen.dart';
 
-import 'route_helpers.dart'; // import helper
+import '../views/splash/splash_screen.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/splash',
   routes: [
+    GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
     GoRoute(
-      path: '/home',
-      name: 'home',
-      pageBuilder: (context, state) => buildSlideTransition(HomePage()),
+      path: '/onboarding',
+      builder: (context, state) => const OnboardingScreen(),
     ),
-    GoRoute(
-      path: '/login',
-      name: 'login',
-      pageBuilder: (context, state) => buildSlideTransition(Login()),
-    ),
-    // GoRoute(
-    //   path: '/profile/:userId',
-    //   name: 'profile',
-    //   pageBuilder: (context, state) => buildSlideTransition(
-    //       ProfilePage(userId: state.params['userId']!)),
-    // ),
-    // ...more routes
+    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+    GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+    // baqi routes...
   ],
 );

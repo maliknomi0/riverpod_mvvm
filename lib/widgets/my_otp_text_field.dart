@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpordmvvm/widgets/MyText.dart';
-import 'package:riverpordmvvm/providers.dart';
+import 'package:riverpordmvvm/providers/theme_provider.dart';
+import 'package:riverpordmvvm/widgets/my_text.dart';
 // import 'package:riverpordmvvm/core/themes/theme_constants.dart'; // Gradient ab use nahi ho raha
 
 class MyotpTextField extends StatefulWidget {
@@ -130,7 +130,7 @@ class _MyotpTextFieldState extends State<MyotpTextField>
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final themeMode = ref.watch(themeControllerProvider).themeMode;
+        final themeMode = ref.watch(themeProvider);
         final systemIsDark = Theme.of(context).brightness == Brightness.dark;
 
         final isDarkMode = themeMode == ThemeMode.system
