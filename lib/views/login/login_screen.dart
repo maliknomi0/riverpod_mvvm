@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/providers/login_provider.dart';
 import 'package:riverpordmvvm/view_models/login/login_vm.dart';
+import 'package:riverpordmvvm/widgets/my_snackbar.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -13,6 +14,18 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    ref.listen<LoginVM>(loginVMProvider, (previous, next) {
+      if (next.status == LoginStatus.error) {
+        mysnackbar.showError(context, next.errorMsg ?? 'Login failed');
+      } else if (next.status == LoginStatus.success) {
+        mysnackbar.showSuccess(context, 'Login Success!');
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +49,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   decoration: const InputDecoration(labelText: "Password"),
                 ),
                 const SizedBox(height: 20),
-                if (loginVM.status == LoginStatus.error)
-                  Text(
-                    loginVM.errorMsg ?? 'Login failed',
-                    style: const TextStyle(color: Colors.red),
-                  ),
                 ElevatedButton(
                   onPressed: (loginVM.status == LoginStatus.loading)
                       ? null
@@ -49,16 +57,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           final password = passCtrl.text.trim();
 
                           if (!EmailValidator.validate(email)) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Invalid email!')),
-                            );
+                            mysnackbar.showError(context, 'Invalid email!');
                             return;
                           }
                           if (password.length < 6) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Password too short!'),
-                              ),
+                            mysnackbar.showError(
+                              context,
+                              'Password too short!',
                             );
                             return;
                           }
@@ -69,8 +74,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ? const CircularProgressIndicator()
                       : const Text("Login"),
                 ),
-                if (loginVM.status == LoginStatus.success)
-                  const Text("Login Success!"),
               ],
             ),
           ),
