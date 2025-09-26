@@ -30,7 +30,7 @@ Future<void> main() async {
               (ref) => LocaleNotifier(initialLocale: bootstrap.locale),
             ),
           ],
-          child: child,
+          child: child ?? const SizedBox.shrink(),
         ),
         child: const AppRoot(),
       ),

@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
 import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 class MyText extends StatefulWidget {
@@ -49,7 +48,7 @@ class MyText extends StatefulWidget {
     this.translate = true,
   });
 
-  const MyText.heading(
+  MyText.heading(
     String text, {
     Key? key,
     TextAlign? textAlign,
@@ -63,21 +62,21 @@ class MyText extends StatefulWidget {
     double? letterSpacing,
     bool translate = true,
   }) : this(
-          text,
-          key: key,
-          size: headingTextStyle.fontSize,
-          weight: headingTextStyle.fontWeight,
-          textAlign: textAlign,
-          textOverflow: textOverflow,
-          maxLines: maxLines,
-          lineHeight: lineHeight,
-          paddingTop: paddingTop,
-          paddingLeft: paddingLeft,
-          paddingRight: paddingRight,
-          paddingBottom: paddingBottom,
-          letterSpacing: letterSpacing,
-          translate: translate,
-        );
+         text,
+         key: key,
+         size: headingTextStyle.fontSize,
+         weight: headingTextStyle.fontWeight,
+         textAlign: textAlign,
+         textOverflow: textOverflow,
+         maxLines: maxLines,
+         lineHeight: lineHeight,
+         paddingTop: paddingTop,
+         paddingLeft: paddingLeft,
+         paddingRight: paddingRight,
+         paddingBottom: paddingBottom,
+         letterSpacing: letterSpacing,
+         translate: translate,
+       );
 
   @override
   _MyTextState createState() => _MyTextState();
