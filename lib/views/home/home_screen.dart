@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/config/localization_config.dart';
 import '../../core/config/theme_config.dart';
+import '../../core/themes/theme_constants.dart';
 import '../../providers/localization_provider.dart';
 import '../../providers/theme_provider.dart';
+import '../../widgets/my_text.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -17,7 +19,7 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('title').tr(),
+        title: const MyText('title'),
         actions: [
           IconButton(
             icon: Icon(
@@ -37,7 +39,7 @@ class HomeScreen extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('cookies_message').tr(),
+            const MyText('cookies_message'),
             const SizedBox(height: 24),
             Wrap(
               spacing: 16,
@@ -56,7 +58,10 @@ class HomeScreen extends ConsumerWidget {
                             .changeLocale(option.locale);
                         await context.setLocale(option.locale);
                       },
-                      child: Text(option.label),
+                      child: MyText(
+                        option.label,
+                        translate: false,
+                      ),
                     ),
                   )
                   .toList(),
@@ -67,16 +72,20 @@ class HomeScreen extends ConsumerWidget {
                 await ref.read(localeProvider.notifier).resetLocale();
                 await context.setLocale(LocalizationConfig.fallbackLocale);
               },
-              child: const Text('Reset Locale'),
+              child: const MyText('Reset Locale'),
             ),
             const SizedBox(height: 24),
-            Text(
-              'Theme: ' + (themeMode == ThemeMode.light ? 'Light' : 'Dark'),
-              style: const TextStyle(fontWeight: FontWeight.bold),
+            MyText(
+              'Theme: ${themeMode == ThemeMode.light ? 'Light' : 'Dark'}',
+              weight: FontWeight.bold,
+              size: fontSizeM,
+              translate: false,
             ),
-            Text(
-              'Locale: ' + locale.toString(),
-              style: const TextStyle(fontWeight: FontWeight.bold),
+            MyText(
+              'Locale: ${locale.toString()}',
+              weight: FontWeight.bold,
+              size: fontSizeM,
+              translate: false,
             ),
           ],
         ),

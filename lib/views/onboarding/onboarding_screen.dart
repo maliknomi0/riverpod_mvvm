@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/themes/theme_constants.dart';
-import '../../../widgets/my_container.dart';
 import '../../../providers/onboarding_provider.dart';
+import '../../../widgets/common_image.dart';
+import '../../../widgets/my_container.dart';
+import '../../../widgets/my_text.dart';
 
 class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({super.key});
@@ -18,9 +20,10 @@ class OnboardingScreen extends ConsumerWidget {
             // Main Image
             Container(
               margin: const EdgeInsets.only(top: 0.0),
-              child: Image(
+              child: CommonImageView(
+                imagePath: vm.currentStep.imageAsset,
                 height: 640.0,
-                image: AssetImage(vm.currentStep.imageAsset),
+                fit: BoxFit.cover,
               ),
             ),
             // Top Navigation
@@ -38,13 +41,7 @@ class OnboardingScreen extends ConsumerWidget {
                   vm.contentState != vm.steps.length - 1
                       ? GestureDetector(
                           onTap: () => ref.read(onboardingVMProvider).skipToEnd(),
-                          child: const Text(
-                            'Skip',
-                            style: TextStyle(
-                              fontSize: 19.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+                          child: const MyText('Skip'),
                         )
                       : const SizedBox(),
                 ],
@@ -67,21 +64,17 @@ class OnboardingScreen extends ConsumerWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
+                      MyText.heading(
                         vm.currentStep.title,
-                        style: const TextStyle(
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        textAlign: TextAlign.center,
+                        translate: false,
                       ),
                       const SizedBox(height: 16.0),
-                      Text(
+                      MyText(
                         vm.currentStep.description,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w300,
-                        ),
+                        size: fontSizeS,
+                        translate: false,
                       ),
                       const SizedBox(height: 40.0),
                       // Indicators & Next Button

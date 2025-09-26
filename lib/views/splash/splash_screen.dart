@@ -6,6 +6,7 @@ import 'package:riverpordmvvm/view_models/splash/splash_vm.dart';
 
 import '../../core/themes/theme_constants.dart';
 import '../../widgets/common_image.dart';
+import '../../widgets/my_text.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -62,20 +63,18 @@ class _SplashScreenState extends State<SplashScreen>
             SizedBox(height: 30.h), // Responsive
             SlideTransition(
               position: _vm.headingAnimation,
-              child: Text(
+              child: MyText.heading(
                 'WELCOME TO ONE LIFESTYLE',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.sp, // Responsive font
-                ),
+                translate: false,
               ),
             ),
             SizedBox(height: 10.h), // Responsive
             SlideTransition(
               position: _vm.descriptionAnimation,
-              child: Text(
+              child: MyText(
                 'One step closer to a better you',
-                style: TextStyle(fontSize: 16.sp), // Responsive font
+                size: fontSizeS,
+                translate: false,
               ),
             ),
           ],
