@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpordmvvm/providers/login_provider.dart';
 import 'package:riverpordmvvm/view_models/login/login_vm.dart';
 import 'package:riverpordmvvm/widgets/my_snackbar.dart';
+import 'package:riverpordmvvm/widgets/my_text.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -72,7 +73,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         },
                   child: loginVM.status == LoginStatus.loading
                       ? const CircularProgressIndicator()
-                      : const Text("Login"),
+                      : const MyText('Login'),
                 ),
               ],
             ),

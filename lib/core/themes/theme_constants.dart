@@ -20,6 +20,7 @@ const Color greyColor = Color(0xFF616161);
 const Color dividerColor = Color(0xff717171);
 const Color transparentColor = Colors.transparent;
 const Color iconColor = Color(0xFFB0B0B0);
+const Color appTextColor = Color(0xFF1F1F1F);
 
 // ----------------------- SIZES -----------------------
 const double buttonHeight = 48.0;
@@ -76,6 +77,11 @@ const TextStyle normalHeading = TextStyle(
   fontSize: fontSizeM,
   fontWeight: weightLight,
   fontFamily: fontFamilyBlinker,
+);
+
+const TextStyle headingTextStyle = TextStyle(
+  fontSize: fontSizeM,
+  fontWeight: weightBold,
 );
 
 const lightColorScheme = ColorScheme(

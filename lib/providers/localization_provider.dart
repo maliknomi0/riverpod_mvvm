@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../core/config/localization_config.dart';
 import '../core/storage/hive_storage_helper.dart';
 
 final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
@@ -7,25 +9,24 @@ final localeProvider = StateNotifierProvider<LocaleNotifier, Locale>((ref) {
 });
 
 class LocaleNotifier extends StateNotifier<Locale> {
-  LocaleNotifier() : super(_getInitialLocale());
+  LocaleNotifier({Locale? initialLocale})
+      : super(initialLocale ?? _getInitialLocale());
 
   static Locale _getInitialLocale() {
     final String? saved = HiveStorageHelper.getLocale();
     if (saved != null) {
-      final parts = saved.split('_');
-      return Locale(parts[0], parts.length > 1 ? parts[1] : null);
+      return LocalizationConfig.parseLocale(saved);
     }
-    return const Locale('en', 'US');
+    return LocalizationConfig.fallbackLocale;
   }
 
-  void changeLocale(Locale locale) async {
+  Future<void> changeLocale(Locale locale) async {
     state = locale;
     await HiveStorageHelper.saveLocale(locale.toString());
   }
 
-
   Future<void> resetLocale() async {
     await HiveStorageHelper.clearLocale();
-    state = const Locale('en', 'US');
+    state = LocalizationConfig.fallbackLocale;
   }
 }

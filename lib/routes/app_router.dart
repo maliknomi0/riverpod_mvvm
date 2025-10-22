@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:riverpordmvvm/main.dart';
-import 'package:riverpordmvvm/routes/route_helpers.dart';
-import 'package:riverpordmvvm/views/login/login_screen.dart';
-import 'package:riverpordmvvm/views/onboarding/onboarding_screen.dart';
 
+import '../views/home/home_screen.dart';
+import '../views/login/login_screen.dart';
+import '../views/onboarding/onboarding_screen.dart';
 import '../views/splash/splash_screen.dart';
+import 'route_helpers.dart';
 
 final GoRouter appRouter = GoRouter(
   initialLocation: '/splash',
@@ -26,8 +26,8 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(
       path: '/home',
-      pageBuilder: (context, state) => buildSlideTransition(const HomePage()),
+      pageBuilder: (context, state) =>
+          buildSlideTransition(const HomeScreen()),
     ),
-    // baqi routes...
   ],
 );

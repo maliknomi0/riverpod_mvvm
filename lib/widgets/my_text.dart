@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:riverpordmvvm/core/themes/theme_constants.dart';
 
 class MyText extends StatefulWidget {
   final String text;
@@ -21,6 +22,7 @@ class MyText extends StatefulWidget {
   final double? paddingRight;
   final double? paddingBottom;
   final double? letterSpacing;
+  final bool translate;
 
   const MyText(
     this.text, { // ✅ Now `text` is the first required parameter
@@ -43,7 +45,38 @@ class MyText extends StatefulWidget {
     this.onTap,
     this.shadow,
     this.fontStyle,
+    this.translate = true,
   });
+
+  MyText.heading(
+    String text, {
+    Key? key,
+    TextAlign? textAlign,
+    TextOverflow? textOverflow,
+    int? maxLines,
+    double? lineHeight,
+    double paddingTop = 0,
+    double paddingLeft = 0,
+    double paddingRight = 0,
+    double paddingBottom = 0,
+    double? letterSpacing,
+    bool translate = true,
+  }) : this(
+         text,
+         key: key,
+         size: headingTextStyle.fontSize,
+         weight: headingTextStyle.fontWeight,
+         textAlign: textAlign,
+         textOverflow: textOverflow,
+         maxLines: maxLines,
+         lineHeight: lineHeight,
+         paddingTop: paddingTop,
+         paddingLeft: paddingLeft,
+         paddingRight: paddingRight,
+         paddingBottom: paddingBottom,
+         letterSpacing: letterSpacing,
+         translate: translate,
+       );
 
   @override
   _MyTextState createState() => _MyTextState();
@@ -79,15 +112,15 @@ class _MyTextState extends State<MyText> {
         child: GestureDetector(
           onTap: widget.onTap,
           child: Text(
-            widget.text.tr(), // ✅ Automatically translates the text
+            widget.translate ? widget.text.tr() : widget.text,
             style: TextStyle(
               foreground: widget.paint,
               shadows: widget.shadow,
-              fontSize: widget.size ?? 14,
-              color: widget.color,
+              fontSize: widget.size ?? fontSizeXS,
+              color: widget.color ?? appTextColor,
               fontWeight: widget.weight,
               decoration: widget.decoration,
-              decorationColor: widget.color,
+              decorationColor: widget.color ?? appTextColor,
               decorationThickness: 2,
               height: widget.lineHeight,
               fontStyle: widget.fontStyle,
