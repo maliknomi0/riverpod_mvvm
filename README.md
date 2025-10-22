@@ -1,89 +1,78 @@
-Bhai, **tum bohat achha soch rahe ho!**
-Yani tum chahte ho ki **main ab tak ke sab (structure, style, best practices, naming, folders, routes, VM, etc.)**
-**ek jagah ek choti sample bana kar de doon** —
-taake tum jab bhi chahe dekh sako,
-ya naye developer ko dikhana ho, ya future me khud bhi bhool jao to yaad aa jaye.
+# Flutter Clean MVVM Starter Example (English Version)
 
----
+This is a **starter template** built with **MVVM + Riverpod + GoRouter +
+Clean Code** principles.\
+It is fully commented and can be applied to any real-world Flutter
+project.
 
-## **Chalo, main ek DEMO MINI PROJECT STRUCTURE bana deta hoon:**
+------------------------------------------------------------------------
 
-Yeh ek **“starter template”** jaisa hai, MVVM + Riverpod + GoRouter + Clean Code ke hisaab se,
-aur comments ke sath —
-**yeh har real-world project me apply ho sakta hai!**
+## Folder Structure
 
----
+    lib/
+    ├── core/
+    │   ├── config/
+    │   │   ├── theme_config.dart
+    │   │   └── localization_config.dart
+    │   ├── services/
+    │   │   └── storage_service.dart
+    │   └── themes/
+    │       ├── theme_constants.dart
+    │       └── app_themes.dart
+    │
+    ├── models/
+    │   └── user_model.dart
+    │
+    ├── providers/
+    │   ├── locale_provider.dart
+    │   ├── theme_provider.dart
+    │   └── ... (add more as needed)
+    │
+    ├── routes/
+    │   └── app_router.dart
+    │
+    ├── views/
+    │   ├── splash/
+    │   │   ├── splash_screen.dart      // <-- UI
+    │   │   └── splash_vm.dart          // <-- Logic (ViewModel)
+    │   ├── onboarding/
+    │   │   ├── onboarding_screen.dart
+    │   │   └── onboarding_vm.dart
+    │   ├── login/
+    │   │   ├── login_screen.dart
+    │   │   └── login_vm.dart
+    │   ├── home/
+    │   │   ├── home_screen.dart
+    │   │   └── home_vm.dart
+    │
+    ├── widgets/
+    │   └── common_image.dart
+    │
+    └── main.dart
 
-# **Flutter Clean MVVM Starter Example**
+------------------------------------------------------------------------
 
-```
-lib/
-├── core/
-│   ├── config/
-│   │   ├── theme_config.dart
-│   │   └── localization_config.dart
-│   ├── services/
-│   │   └── storage_service.dart
-│   └── themes/
-│       ├── theme_constants.dart
-│       └── app_themes.dart
-│
-├── models/
-│   └── user_model.dart
-│
-├── providers/
-│   ├── locale_provider.dart
-│   ├── theme_provider.dart
-│   └── ... (aur bhi agar chahiye)
-│
-├── routes/
-│   └── app_router.dart
-│
-├── views/
-│   ├── splash/
-│   │   ├── splash_screen.dart      // <-- UI
-│   │   └── splash_vm.dart          // <-- Logic (ViewModel)
-│   ├── onboarding/
-│   │   ├── onboarding_screen.dart
-│   │   └── onboarding_vm.dart
-│   ├── login/
-│   │   ├── login_screen.dart
-│   │   └── login_vm.dart
-│   ├── home/
-│   │   ├── home_screen.dart
-│   │   └── home_vm.dart
-│
-├── widgets/
-│   └── common_image.dart
-│
-└── main.dart
-```
+## Sample Files
 
----
+### 1. Splash ViewModel (`splash_vm.dart`)
 
-## **Sample File Examples**
-
-### **1. Splash ViewModel (splash\_vm.dart)**
-
-```dart
+``` dart
 import 'package:flutter/material.dart';
 import '../../core/services/storage_service.dart';
 import '../../models/user_model.dart';
 
 class SplashVM with ChangeNotifier {
   final StorageService _storage = StorageService();
-  // Animations
   late AnimationController logoController;
-  // ... (baqi controllers & animations)
 
   SplashVM({required TickerProvider vsync}) {
-    // animation setup...
+    // Animation setup
   }
 
   Future<void> playAnimations() async { /* ... */ }
 
   Future<String> getInitialRoute() async {
-    // onboarding, login, user check logic...
+    // Onboarding, login, user check logic
     return '/login'; // sample
   }
 
@@ -92,11 +81,11 @@ class SplashVM with ChangeNotifier {
 }
 ```
 
----
+------------------------------------------------------------------------
 
-### **2. Splash UI (splash\_screen.dart)**
+### 2. Splash UI (`splash_screen.dart`)
 
-```dart
+``` dart
 import 'package:flutter/material.dart';
 import 'splash_vm.dart';
 import 'package:go_router/go_router.dart';
@@ -112,18 +101,17 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     return Scaffold(
       body: Center(
         child: Text('Splash Screen'),
-        // SlideTransition/Logo/Text...
       ),
     );
   }
 }
 ```
 
----
+------------------------------------------------------------------------
 
-### **3. GoRouter Setup (app\_router.dart)**
+### 3. GoRouter Setup (`app_router.dart`)
 
-```dart
+``` dart
 import 'package:go_router/go_router.dart';
 import '../views/splash/splash_screen.dart';
 import '../views/onboarding/onboarding_screen.dart';
@@ -141,11 +129,11 @@ final GoRouter appRouter = GoRouter(
 );
 ```
 
----
+------------------------------------------------------------------------
 
-### **4. main.dart**
+### 4. Main Entry (`main.dart`)
 
-```dart
+``` dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'routes/app_router.dart';
@@ -159,66 +147,55 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: appRouter,
-      // theme, locale, delegates waghera...
+      // Theme, locale, delegates, etc.
     );
   }
 }
 ```
 
----
+------------------------------------------------------------------------
 
-### **5. Theme & Localization (core/themes/app\_themes.dart, core/config/localization\_config.dart)**
+### 5. Theme & Localization
 
-* **`theme_constants.dart`** me sari colors, font, gradient, global text style ek jagah.
-* **`app_themes.dart`** me ThemeData (light/dark) bana ke export karo.
-* **`localization_config.dart`** me supportedLocales etc.
+-   **`theme_constants.dart`** --- contains global colors, fonts,
+    gradients, and text styles.
+-   **`app_themes.dart`** --- defines and exports light and dark
+    `ThemeData`.
+-   **`localization_config.dart`** --- defines supported locales and
+    delegates.
 
----
+------------------------------------------------------------------------
 
-### **6. Riverpod Providers**
+### 6. Riverpod Providers
 
-* Har state ke liye `/providers/xyz_provider.dart`
-  (theme, locale, auth, etc.)
+Each state is handled in `/providers/xyz_provider.dart`, such as: -
+Theme provider - Locale provider - Auth provider - etc.
 
----
+------------------------------------------------------------------------
 
-## **Golden Rule (Summed Up):**
+## Golden Rule
 
-> **“Har feature ka apna folder — har folder me ek `xyz_screen.dart` (UI), ek `xyz_vm.dart` (logic/viewmodel/controller).”**
+> **"Each feature has its own folder --- inside it, one
+> `xyz_screen.dart` (UI) and one `xyz_vm.dart` (logic / ViewModel)."**
 >
-> * Route management `app_router.dart` se.
-> * Theme, locale, config, core ke andar.
-> * Riverpod provider (state) alag folder me.
+> -   Route management via `app_router.dart`
+> -   Theme, locale, and configurations inside `/core/config`
+> -   Riverpod providers inside `/providers`
+> -   Shared widgets inside `/widgets`
 
----
+------------------------------------------------------------------------
 
-## **Jo bhi cheez future me add ho — bas isi pattern pe bana lo!**
+## Setup Steps
 
-* **Clean, scalable, testable, team-friendly, pro-level code!**
-* Naya dev bhi aayega, structure dekh ke khush ho jayega.
+1.  Prepare the **folder structure**
+2.  Create a **screen** and **viewmodel** for each feature
+3.  Keep **routing, theme, and localization** in `/core/config`
+4.  Manage **state** with Riverpod in `/providers`
+5.  Add reusable widgets in `/widgets`
 
----
+------------------------------------------------------------------------
 
-## **Ab tum kabhi bhi project setup karte ho:**
+### Result
 
-1. Pehle **structure/folders** ready karo (upar wala)
-2. Har feature ka screen + viewmodel banao
-3. Routing, theme, locale sab core/config me rakho
-4. Riverpod providers ki file `/providers` me
-5. Widgets/reusables `/widgets` me
-
----
-
-**Yeh summary kisi bhi time use kar sakte ho!
-Koi naya dev ho, ya future ka khud — confuse nahi ho ge.**
-
-Agar chaho to main ye summary ek file me likh ke bhi de sakta ho —
-**`README_PROJECT_STRUCTURE.md`** ki tarah, project ke andar!
-Batao, bana doon?
-
----
-
-**Aur kuch bhi poochhna ho, ya sample code chahiye ho,
-bas keh do — main deta rahunga, isi style me!**
-
-**Mazay se coding karo!** 🚀😎
+Clean, scalable, testable, and team-friendly Flutter project!\
+Any new developer can join and understand it immediately.
